@@ -1,0 +1,13 @@
+[package]
+name = "ai_random"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rand = "0.8"
+libloading = "0.8"
+board = { path = "../../board" }  # Assuming the board.rs file is in the root src folder
+
+[lib]
+name = "ai_random"
+crate-type = ["cdylib"]  # Spécifie que c'est une bibliothèque dynamique

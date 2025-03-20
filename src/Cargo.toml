@@ -1,8 +1,0 @@
-[package]
-name = "PROJET_E4_RUST"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-board = { path = "../board" }
-libloading = "0.8"

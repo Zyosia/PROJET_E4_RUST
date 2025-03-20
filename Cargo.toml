@@ -4,8 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-board = { path = "./board" }
-libloading = "0.8"
-
-[workspace]
-members = ["board", "src/ai"]
+game_engine = { path= "src/game_engine" }
+ai_manager = { path = "src/ai_manager" }
+board = { path = "src/board" }
+debug_tool = { path = "src/debug_tool" }
