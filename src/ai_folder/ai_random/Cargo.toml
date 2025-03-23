@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 rand = "0.8"
 libloading = "0.8"
-board = { path = "../../board" }  # Assuming the board.rs file is in the root src folder
+board = { path = "../../board" }
 
 [lib]
 name = "ai_random"
