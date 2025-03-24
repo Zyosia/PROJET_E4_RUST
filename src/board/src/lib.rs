@@ -1,3 +1,5 @@
+use std::{io, io::Write};
+
 const SIZE: usize = 8;
 
 #[derive(Clone)]
@@ -33,6 +35,28 @@ impl Board {
         println!("  A B C D E F G H\n");
     }
     
+    pub fn to_string(&self) -> String {
+        let mut board_str = String::from("  A B C D E F G H\n");
+
+        // Iterate through the rows, reversing for the correct row order
+        for (i, row) in self.grid.iter().rev().enumerate() {
+            board_str.push_str(&format!("{} ", SIZE - i)); // Add row number
+            for cell in row.iter() {
+                board_str.push_str(&format!("{} ", cell)); // Add cell content
+            }
+            board_str.push_str(&format!("{}\n", SIZE - i)); // Add row number at the end
+        }
+
+        board_str.push_str("  A B C D E F G H\n"); // Add column labels at the bottom
+        board_str
+    }
+
+    pub fn print_to_file<W: Write>(&self, writer: &mut W) -> io::Result<()> {
+        let board_output = self.to_string();
+        writeln!(writer, "{}", board_output)?;
+        Ok(())
+    }
+
     pub fn is_valid_move(&self, from: (usize, usize), to: (usize, usize), player: char) -> bool {
         let (fx, fy) = from;
         let (tx, ty) = to;

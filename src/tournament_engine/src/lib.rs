@@ -4,7 +4,7 @@ use board::Board;
 use game_engine::Game;
 use ai_manager::{load_ai_functions, compile_all_ai, create_new_ai};
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum TournamentState {
     Waiting,
     Started,
@@ -27,7 +27,12 @@ impl Tournament {
         }
     }
 
-    fn add_ia(&mut self) -> Result<(), String>{
+    pub fn get_state(&self) -> TournamentState {
+        self.state.clone()
+    }
+
+
+    pub fn add_ia(&mut self) -> Result<(), String>{
         if self.state == TournamentState::Started {
             return Err("❌ Impossible d'ajouter une IA le tournois a déjà commencé !".to_string());
         }
@@ -86,7 +91,7 @@ impl Tournament {
         if self.participants.len() < 2 {
             return Err("❌ Not enough participants to start the tournament.".to_string());
         }
-        
+
         // Set the state to Started
         self.state = TournamentState::Started;
 
@@ -115,13 +120,15 @@ impl Tournament {
                         let ai_function2 = Arc::clone(ai_function2);
 
                         let mut game = Game::new(
+                            ai_name1.clone(),
+                            ai_name2.clone(),
                             Some(ai_function1),  // Pass the cloned Arc
                             Some(ai_function2),  // Pass the cloned Arc
                             Some(lib1.clone()),
                             Some(lib2.clone()),
                         );
 
-                        game.run();
+                        game.run().unwrap();
 
                         // Assuming we have a method to determine the winner
                         let winner = game.get_board().check_winner().unwrap_or(' ');
@@ -142,10 +149,24 @@ impl Tournament {
         Ok(())
     }
 
-    fn display_scoreboard(&self) {
-        println!("Tournament Results:");
-        for (ai_name, score) in &self.scores {
-            println!("{}: {} points", ai_name, score);
+    pub fn display_scoreboard(&self) {
+        let mut sorted_scores: Vec<(&String, &usize)> = self.scores.iter().collect();
+        sorted_scores.sort_by(|a, b| b.1.cmp(a.1)); // Sort descending
+
+        println!("\n🏆 Tournament Results 🏆");
+        for (rank, (ai_name, score)) in sorted_scores.iter().enumerate() {
+            println!("{}. {} - {} points", rank + 1, ai_name, score);
+        }
+    }
+
+    pub fn show_participants(&self) {
+        if self.participants.is_empty() {
+            println!("❌ No participants registered.");
+            return;
+        }
+        println!("\n🤖 Tournament Participants:");
+        for (i, ai) in self.participants.iter().enumerate() {
+            println!("{}. {}", i + 1, ai);
         }
     }
 }
