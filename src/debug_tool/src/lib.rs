@@ -1,5 +1,7 @@
 use std::any::type_name;
 
+/// TOOLS for debuging
+
 /// Affiche le type d'une variable
 ///
 /// # Arguments

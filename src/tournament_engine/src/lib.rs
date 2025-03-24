@@ -4,6 +4,7 @@ use board::Board;
 use game_engine::Game;
 use ai_manager::{load_ai_functions, compile_all_ai, create_new_ai};
 
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum TournamentState {
     Waiting,
@@ -18,6 +19,8 @@ pub struct Tournament {
 }
 
 impl Tournament {
+
+    /// Creates a new tournament instance.
     pub fn new() -> Self {
         Self {
             state: TournamentState::Waiting,
@@ -27,11 +30,15 @@ impl Tournament {
         }
     }
 
+    /// Returns the current state of the tournament.
     pub fn get_state(&self) -> TournamentState {
         self.state.clone()
     }
 
-
+    /// Adds a new AI to the tournament.
+    /// Returns an error if the tournament has already started or the ai creation has failed.
+    /// # Returns
+    /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
     pub fn add_ia(&mut self) -> Result<(), String>{
         if self.state == TournamentState::Started {
             return Err("❌ Impossible d'ajouter une IA le tournois a déjà commencé !".to_string());
@@ -44,6 +51,7 @@ impl Tournament {
         Ok(())
     }
 
+    /// Adds a participant to the tournament.
     fn add_participant(
         &mut self, 
         ai_name: String, 
@@ -54,11 +62,14 @@ impl Tournament {
         self.participants.push(ai_name);
     }
 
+    /// Loads all AI participants into the tournament.
+    /// # Returns
+    /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
     fn add_all_ai(&mut self) -> Result<(), String>{
         // Charge les IA
         let mut ai_functions_data = load_ai_functions().unwrap();
         if ai_functions_data.is_empty(){
-            return Err("No AI functions loaded.".to_string());
+            return Err("Erreur: Aucune IA chargée.".to_string());
         }
 
         loop{
@@ -66,12 +77,16 @@ impl Tournament {
                 break;
             }
             let ai_data = ai_functions_data.pop();
-            let Some((lib, ai_function, ai_name)) = ai_data.unwrap() else {panic!("ai_data is None")};
+            let Some((lib, ai_function, ai_name)) = ai_data.unwrap() else {panic!("Erreur: impossible de récupéré les données de l'IA")};
             Self::add_participant(self, ai_name, lib, ai_function);
         }
         Ok(())
     }
 
+    /// Starts the tournament.
+    /// Loads and Compiles AI functions and initializes the tournament state.
+    /// # Returns
+    /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
     pub fn start(&mut self) -> Result<(), String> {
 
         if self.state == TournamentState::Started {
@@ -89,7 +104,7 @@ impl Tournament {
         Self::add_all_ai(self).unwrap();
 
         if self.participants.len() < 2 {
-            return Err("❌ Not enough participants to start the tournament.".to_string());
+            return Err("❌ Pas assez de participants.".to_string());
         }
 
         // Set the state to Started
@@ -100,9 +115,14 @@ impl Tournament {
             self.scores.insert(participant.clone(), 0);
         }
 
+        Self::show_participants(&self);
+
         Ok(())
     }
 
+    /// Runs the tournament by making each AI play against the others.
+    /// # Returns
+    /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
     pub fn run(&mut self) -> Result<(), String> {
         if self.state != TournamentState::Started {
             return Err("Le tournois n'a pas commencé.".to_string());
@@ -149,22 +169,24 @@ impl Tournament {
         Ok(())
     }
 
+    /// Displays the tournament scoreboard with rankings.
     pub fn display_scoreboard(&self) {
         let mut sorted_scores: Vec<(&String, &usize)> = self.scores.iter().collect();
         sorted_scores.sort_by(|a, b| b.1.cmp(a.1)); // Sort descending
 
-        println!("\n🏆 Tournament Results 🏆");
+        println!("\n🏆 Résultats du Tournois 🏆");
         for (rank, (ai_name, score)) in sorted_scores.iter().enumerate() {
             println!("{}. {} - {} points", rank + 1, ai_name, score);
         }
     }
 
+    /// Displays the list of AI participants in the tournament.
     pub fn show_participants(&self) {
         if self.participants.is_empty() {
-            println!("❌ No participants registered.");
+            println!("❌ Aucun participant enregistré.");
             return;
         }
-        println!("\n🤖 Tournament Participants:");
+        println!("\n🤖 Participants du tournois:");
         for (i, ai) in self.participants.iter().enumerate() {
             println!("{}. {}", i + 1, ai);
         }

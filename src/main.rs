@@ -6,12 +6,14 @@ use std::{io::{self, Write}, fs};
 use tournament_engine::{Tournament, TournamentState};
 use game_engine::replay_from_file;
 
+/// Main function that controls the program's flow.
+/// This function presents the user with a main menu and calls the appropriate functions based on the user's choice.
 fn main() {
     loop {
         match main_menu() {
             1 => start_tournament(),
             2 => {
-                println!("👋 Exiting...");
+                println!("👋 Exiting... 🚪");
                 break;
             }
             _ => {
@@ -22,6 +24,8 @@ fn main() {
     }
 }
 
+/// Displays the main menu to the user and prompts for a choice.
+/// Returns the user's choice as a u32 value.
 fn main_menu() -> u32 {
     clear_screen();
     println!("🎮 Welcome to the Tournament Manager 🎮");
@@ -31,6 +35,9 @@ fn main_menu() -> u32 {
     read_input()
 }
 
+/// Starts the tournament and handles the sub-menu of tournament options.
+/// This function provides options for adding AIs, showing participants, starting the tournament, 
+/// displaying the scoreboard, running the tournament, replaying a game, or ending the tournament.
 fn start_tournament() {
     let mut tournament = Tournament::new();
 
@@ -89,6 +96,9 @@ fn start_tournament() {
     }
 }
 
+
+/// Displays the tournament menu to the user and prompts for a choice.
+/// Returns the user's choice as a u32 value.
 fn tournament_menu(tournament: &Tournament) -> u32 {
     clear_screen();
     
@@ -111,6 +121,8 @@ fn tournament_menu(tournament: &Tournament) -> u32 {
     read_input()
 }
 
+/// Handles the replay of a game by listing available games and allowing the user to select one.
+/// If the game is valid, it will attempt to replay it from the game history.
 fn replay_game() {
     match list_available_games() {
         Ok(games) => {
@@ -152,10 +164,13 @@ fn replay_game() {
     }
 }
 
+/// Clears the terminal screen.
 fn clear_screen() {
     execute!(io::stdout(), Clear(ClearType::All)).unwrap();
 }
 
+/// Reads user input from the terminal and returns it as a u32 value.
+/// The input is expected to be an integer choice made by the user.
 fn read_input() -> u32 {
     let mut input = String::new();
     io::stdout().flush().unwrap();
@@ -163,13 +178,15 @@ fn read_input() -> u32 {
     input.trim().parse().unwrap_or(0)
 }
 
-// ⏸️ Pause function: Wait for user to press Enter
+/// Pauses the program, waiting for the user to press Enter before continuing.
 fn pause() {
     println!("🔄 Press Enter to continue...");
     let mut pause_input = String::new();
     io::stdin().read_line(&mut pause_input).unwrap();
 }
 
+/// Lists all the available games stored in the game history directory.
+/// Returns a vector of game file names if successful, or an error if reading the directory fails.
 fn list_available_games() -> io::Result<Vec<String>> {
     let path = "src/games_history";
     let entries = fs::read_dir(path)?;
@@ -186,6 +203,8 @@ fn list_available_games() -> io::Result<Vec<String>> {
     Ok(games)
 }
 
+/// Deletes all the game history files (with a `.txt` extension) in the game history directory.
+/// Returns an `io::Result` indicating success or failure.
 fn delete_all_history_files() -> io::Result<()> {
     let path = "src/games_history";
 

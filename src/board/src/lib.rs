@@ -2,12 +2,18 @@ use std::{io, io::Write};
 
 const SIZE: usize = 8;
 
+/// Represents a game board for a 8x8 Breaktrough Game.
 #[derive(Clone)]
 pub struct Board {
     pub grid: [[char; SIZE]; SIZE],
 }
 
 impl Board {
+    /// Creates a new game board with initial positions for players.
+    /// 
+    /// - 'O' occupies the top two rows.
+    /// - 'X' occupies the bottom two rows.
+    /// - The rest of the board is filled with '.' (empty spaces).
     pub fn new() -> Self {
         let mut grid = [['.'; SIZE]; SIZE];
         for i in 0..2 {
@@ -23,6 +29,7 @@ impl Board {
         Self { grid }
     }
     
+    /// Prints the board to the console with labeled rows and columns.
     pub fn print(&self) {
         println!("  A B C D E F G H");
         for (i, row) in self.grid.iter().rev().enumerate() {
@@ -34,7 +41,12 @@ impl Board {
         }
         println!("  A B C D E F G H\n");
     }
-    
+    /// Converts the board state into a string representation.
+    ///
+    /// The board is formatted with labeled rows and columns.
+    /// 
+    /// # Returns
+    /// A string containing the formatted board.
     pub fn to_string(&self) -> String {
         let mut board_str = String::from("  A B C D E F G H\n");
 
@@ -51,12 +63,33 @@ impl Board {
         board_str
     }
 
+    /// Writes the board's string representation to a file.
+    ///
+    /// # Arguments
+    /// * `writer` - A mutable reference to a writable output stream.
+    ///
+    /// # Returns
+    /// * `io::Result<()>` - Result indicating success or failure.
     pub fn print_to_file<W: Write>(&self, writer: &mut W) -> io::Result<()> {
         let board_output = self.to_string();
         writeln!(writer, "{}", board_output)?;
         Ok(())
     }
 
+    /// Checks if a given move is valid.
+    ///
+    /// A move is valid if:
+    /// - The destination is within bounds.
+    /// - The piece at `from` belongs to the current player.
+    /// - The move follows the allowed forward or capture rules.
+    ///
+    /// # Arguments
+    /// * `from` - The starting position `(row, column)`.
+    /// * `to` - The target position `(row, column)`.
+    /// * `player` - The character representing the current player ('X' or 'O').
+    ///
+    /// # Returns
+    /// `true` if the move is valid, `false` otherwise.
     pub fn is_valid_move(&self, from: (usize, usize), to: (usize, usize), player: char) -> bool {
         let (fx, fy) = from;
         let (tx, ty) = to;
@@ -82,6 +115,11 @@ impl Board {
         false
     }
     
+    /// Applies a move on the board, updating the positions.
+    ///
+    /// # Arguments
+    /// * `from` - The starting position `(row, column)`.
+    /// * `to` - The target position `(row, column)`.
     pub fn apply_move(&mut self, from: (usize, usize), to: (usize, usize)) {
         let (fx, fy) = from;
         let (tx, ty) = to;
@@ -89,6 +127,16 @@ impl Board {
         self.grid[fx][fy] = '.';
     }
     
+    /// Checks if there is a winner.
+    ///
+    /// A player wins if:
+    /// - All pieces of the opponent are eliminated.
+    /// - A piece reaches the opposite end of the board.
+    ///
+    /// # Returns
+    /// - `Some('X')` if player 'X' wins.
+    /// - `Some('O')` if player 'O' wins.
+    /// - `None` if the game is still ongoing.
     pub fn check_winner(&self) -> Option<char> {
         let mut x_count = 0;
         let mut o_count = 0;
