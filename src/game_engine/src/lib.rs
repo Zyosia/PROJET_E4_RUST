@@ -6,16 +6,16 @@ use libloading::{Library};
 pub struct Game {  
     board: Board,
     player: char,
-    ai_function1: Option<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>,
-    ai_function2: Option<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>,
+    ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
+    ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
     lib_ai1: Option<Arc<Library>>,
     lib_ai2: Option<Arc<Library>>,
 }
 
 impl Game {
     pub fn new(
-        ai_function1: Option<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>,
-        ai_function2: Option<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>,
+        ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
+        ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
         lib_ai1: Option<Arc<Library>>,
         lib_ai2: Option<Arc<Library>>
     ) -> Self {
@@ -27,6 +27,10 @@ impl Game {
             lib_ai1,
             lib_ai2,
         }
+    }
+
+    pub fn get_board(&mut self) -> Board {
+        self.board.clone()
     }
 
     /*Two AI Run*/

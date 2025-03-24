@@ -9,7 +9,7 @@ dependencies = [
  "ai_manager",
  "board",
  "debug_tool",
- "game_engine",
+ "tournament_engine",
 ]
 
 [[package]]
@@ -137,6 +137,16 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "tournament_engine"
+version = "0.1.0"
+dependencies = [
+ "ai_manager",
+ "board",
+ "game_engine",
+ "libloading",
 ]
 
 [[package]]

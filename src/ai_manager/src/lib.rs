@@ -1,4 +1,4 @@
-use std::{fs,fs::File, sync::Arc, path::{PathBuf}, process::{exit, Command}, io::{self, Write}};
+use std::{fs,fs::File, sync::Arc, path::{PathBuf}, process::{exit, Command}, io::{self, Write}, ffi::OsStr};
 use libloading::{Library, Symbol};
 use board::Board;
 
@@ -49,8 +49,8 @@ fn create_ai_package(ai_path: &str, src_path: &str, ai_name: &str) -> std::io::R
     [lib]
     name = "{0}"
     crate-type = ["cdylib"]
-    "#,
-    ai_name
+        "#,
+        ai_name
     );
 
     let cargo_toml_path = format!("{}/Cargo.toml", ai_path);
@@ -78,9 +78,11 @@ fn write_ai() -> std::io::Result<String> {
     Ok(code)
 }
 
-fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>)> {
+fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String)> {
 
     println!("Chargement de l'IA depuis {:?}", ai_file);
+
+    let ai_name = ai_file.file_stem().and_then(OsStr::to_str).unwrap_or("unknown_ai").to_string();
 
     // Load the shared library dynamically
     let lib = Arc::new(unsafe { Library::new(&ai_file).ok()? });
@@ -95,10 +97,10 @@ fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board
     // Create a closure that calls the function
     let ai_function = unsafe{move |board: &Board, player: char| func_ptr(board, player)};
 
-    Some((lib, Box::new(ai_function)))
+    Some((lib, Box::new(ai_function), ai_name))
 }
 
-pub fn load_ai_functions() -> Option<Vec<Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>)>>> {
+pub fn load_ai_functions() -> Option<Vec<Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String)>>> {
     let ai_folder = "src/ai_folder/";
     let mut ai_functions_data = Vec::new();
 
