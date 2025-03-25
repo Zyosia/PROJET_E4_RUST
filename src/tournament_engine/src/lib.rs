@@ -1,4 +1,4 @@
-use std::{sync::Arc, collections::HashMap};
+use std::{sync::Arc, collections::HashMap, fs, path::Path, io};
 use libloading::{Library};
 use board::Board;
 use game_engine::Game;
@@ -12,6 +12,7 @@ pub enum TournamentState {
 }
 
 pub struct Tournament {
+    tournament_name: String,
     state: TournamentState,
     participants: Vec<String>,  // Names of AI participants
     ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>)>,
@@ -23,6 +24,7 @@ impl Tournament {
     /// Creates a new tournament instance.
     pub fn new() -> Self {
         Self {
+            tournament_name: String::new(),
             state: TournamentState::Waiting,
             participants: Vec::new(),
             ai_functions: HashMap::new(),
@@ -33,6 +35,18 @@ impl Tournament {
     /// Returns the current state of the tournament.
     pub fn get_state(&self) -> TournamentState {
         self.state.clone()
+    }
+
+    /// Returns the tournament name
+    pub fn get_name(&self) -> String {
+        self.tournament_name.clone()
+    }
+
+    /// Set the tournament name
+    /// # Arguments
+    /// - `name` - The name of the tournament.
+    pub fn set_tournament_name(&mut self, name: String) {
+        self.tournament_name = name;
     }
 
     /// Adds a new AI to the tournament.
@@ -190,5 +204,35 @@ impl Tournament {
         for (i, ai) in self.participants.iter().enumerate() {
             println!("{}. {}", i + 1, ai);
         }
+    }
+    /// Save all `.txt` files from `games_history` to `tournament_save`
+    pub fn save_tournament(&self) -> io::Result<()> {
+        let source_folder = "src/games_history";
+        let destination_folder = format!("src/.tournament_saves/{}", self.tournament_name);
+
+        // Ensure the destination folder exists
+        if !Path::new(&destination_folder).exists() {
+            fs::create_dir(&destination_folder)?;
+        }
+
+        // Read all entries in the source folder
+        for entry in fs::read_dir(source_folder)? {
+            let entry = entry?;
+            let path = entry.path();
+
+            // Check if the entry is a file and ends with .txt
+            if path.is_file() && path.extension().and_then(|ext| ext.to_str()) == Some("txt") {
+                let file_name = path.file_name().unwrap(); // Get the file name
+                let new_path = Path::new(&destination_folder).join(file_name); // Destination path
+
+                // Move the file
+                fs::rename(&path, &new_path)?;
+
+                println!("✅ {} saved.", file_name.to_string_lossy());
+            }
+        }
+
+        println!("✅ {} saved", self.tournament_name);
+        Ok(())
     }
 }

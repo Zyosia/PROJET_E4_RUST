@@ -1,0 +1,1015 @@
+🔁 Replay: Joueur X joue de (H,2) à (G,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 O O O O O O O O 7
+6 . . . . . . . . 6
+5 . . . . . . . . 5
+4 . . . . . . . . 4
+3 . . . . . . X . 3
+2 X X X X X X X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (C,7) à (D,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 O O . O O O O O 7
+6 . . . O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . . . . 4
+3 . . . . . . X . 3
+2 X X X X X X X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,3) à (F,4)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 O O . O O O O O 7
+6 . . . O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . . . . . . . . 3
+2 X X X X X X X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (A,7) à (A,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . O . O O O O O 7
+6 O . . O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . . . . . . . . 3
+2 X X X X X X X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,2) à (F,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . O . O O O O O 7
+6 O . . O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . . . . . X . . 3
+2 X X X X X . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,7) à (C,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . . . O O O O O 7
+6 O . O O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . . . . . X . . 3
+2 X X X X X . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (B,2) à (B,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . . . O O O O O 7
+6 O . O O . . . . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . X . . . X . . 3
+2 X . X X X . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (F,7) à (G,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . . . O O . O O 7
+6 O . O O . . O . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . X . . . X . . 3
+2 X . X X X . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,2) à (E,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O O O O O O O O 8
+7 . . . O O . O O 7
+6 O . O O . . O . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . X . . X X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,8) à (C,7)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O O . O O 7
+6 O . O O . . O . 6
+5 . . . . . . . . 5
+4 . . . . . X . . 4
+3 . X . . X X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (B,3) à (A,4)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O O . O O 7
+6 O . O O . . O . 6
+5 . . . . . . . . 5
+4 X . . . . X . . 4
+3 . . . . X X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (E,7) à (F,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O O 7
+6 O . O O . O O . 6
+5 . . . . . . . . 5
+4 X . . . . X . . 4
+3 . . . . X X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,3) à (D,4)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O O 7
+6 O . O O . O O . 6
+5 . . . . . . . . 5
+4 X . . X . X . . 4
+3 . . . . . X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (F,6) à (G,5)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O O 7
+6 O . O O . . O . 6
+5 . . . . . . O . 5
+4 X . . X . X . . 4
+3 . . . . . X . . 3
+2 X . X X . . X . 2
+1 X X X X X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,1) à (E,2)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O O 7
+6 O . O O . . O . 6
+5 . . . . . . O . 5
+4 X . . X . X . . 4
+3 . . . . . X . . 3
+2 X . X X X . X . 2
+1 X X X . X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,7) à (H,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O . 7
+6 O . O O . . O O 6
+5 . . . . . . O . 5
+4 X . . X . X . . 4
+3 . . . . . X . . 3
+2 X . X X X . X . 2
+1 X X X . X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,2) à (E,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O . 7
+6 O . O O . . O O 6
+5 . . . . . . O . 5
+4 X . . X . X . . 4
+3 . . . . X X . . 3
+2 X . X . X . X . 2
+1 X X X . X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (C,6) à (C,5)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O . 7
+6 O . . O . . O O 6
+5 . . O . . . O . 5
+4 X . . X . X . . 4
+3 . . . . X X . . 3
+2 X . X . X . X . 2
+1 X X X . X X X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,1) à (F,2)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O O O O O 8
+7 . . O O . . O . 7
+6 O . . O . . O O 6
+5 . . O . . . O . 5
+4 X . . X . X . . 4
+3 . . . . X X . . 3
+2 X . X . X X X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (E,8) à (E,7)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . O O O 8
+7 . . O O O . O . 7
+6 O . . O . . O O 6
+5 . . O . . . O . 5
+4 X . . X . X . . 4
+3 . . . . X X . . 3
+2 X . X . X X X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (A,2) à (A,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . O O O 8
+7 . . O O O . O . 7
+6 O . . O . . O O 6
+5 . . O . . . O . 5
+4 X . . X . X . . 4
+3 X . . . X X . . 3
+2 . . X . X X X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (D,6) à (D,5)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . O O O 8
+7 . . O O O . O . 7
+6 O . . . . . O O 6
+5 . . O O . . O . 5
+4 X . . X . X . . 4
+3 X . . . X X . . 3
+2 . . X . X X X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,2) à (G,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . O O O 8
+7 . . O O O . O . 7
+6 O . . . . . O O 6
+5 . . O O . . O . 5
+4 X . . X . X . . 4
+3 X . . . X X X . 3
+2 . . X . X . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (F,8) à (F,7)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O O O O . 7
+6 O . . . . . O O 6
+5 . . O O . . O . 5
+4 X . . X . X . . 4
+3 X . . . X X X . 3
+2 . . X . X . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,4) à (E,5)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O O O O . 7
+6 O . . . . . O O 6
+5 . . O O X . O . 5
+4 X . . X . . . . 4
+3 X . . . X X X . 3
+2 . . X . X . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (F,7) à (E,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O O . O . 7
+6 O . . . O . O O 6
+5 . . O O X . O . 5
+4 X . . X . . . . 4
+3 X . . . X X X . 3
+2 . . X . X . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,2) à (D,3)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O O . O . 7
+6 O . . . O . O O 6
+5 . . O O X . O . 5
+4 X . . X . . . . 4
+3 X . . X X X X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (E,7) à (F,6)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O . . O . 7
+6 O . . . O O O O 6
+5 . . O O X . O . 5
+4 X . . X . . . . 4
+3 X . . X X X X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,3) à (G,4)
+Plateau après le coup:
+  A B C D E F G H
+8 O . O O . . O O 8
+7 . . O O . . O . 7
+6 O . . . O O O O 6
+5 . . O O X . O . 5
+4 X . . X . . X . 4
+3 X . . X X . X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (A,8) à (B,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O O . . O . 7
+6 O . . . O O O O 6
+5 . . O O X . O . 5
+4 X . . X . . X . 4
+3 X . . X X . X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,3) à (E,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O O . . O . 7
+6 O . . . O O O O 6
+5 . . O O X . O . 5
+4 X . . X X . X . 4
+3 X . . X . . X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (D,7) à (C,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 O . O . O O O O 6
+5 . . O O X . O . 5
+4 X . . X X . X . 4
+3 X . . X . . X . 3
+2 . . X . . . X . 2
+1 X X X . X . X X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,1) à (F,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 O . O . O O O O 6
+5 . . O O X . O . 5
+4 X . . X X . X . 4
+3 X . . X . . X . 3
+2 . . X . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (A,6) à (A,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 . . O . O O O O 6
+5 O . O O X . O . 5
+4 X . . X X . X . 4
+3 X . . X . . X . 3
+2 . . X . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (C,2) à (B,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 . . O . O O O O 6
+5 O . O O X . O . 5
+4 X . . X X . X . 4
+3 X X . X . . X . 3
+2 . . . . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,6) à (H,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 . . O . O O O . 6
+5 O . O O X . O O 5
+4 X . . X X . X . 4
+3 X X . X . . X . 3
+2 . . . . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,5) à (D,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O O 8
+7 . O O . . . O . 7
+6 . . O X O O O . 6
+5 O . O O . . O O 5
+4 X . . X X . X . 4
+3 X X . X . . X . 3
+2 . . . . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,8) à (H,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O O . . . O O 7
+6 . . O X O O O . 6
+5 O . O O . . O O 5
+4 X . . X X . X . 4
+3 X X . X . . X . 3
+2 . . . . . X X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,2) à (F,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O O . . . O O 7
+6 . . O X O O O . 6
+5 O . O O . . O O 5
+4 X . . X X . X . 4
+3 X X . X . X X . 3
+2 . . . . . . X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,5) à (G,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O O . . . O O 7
+6 . . O X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . O . 4
+3 X X . X . X X . 3
+2 . . . . . . X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (B,3) à (C,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O O . . . O O 7
+6 . . O X O O O . 6
+5 O . O O . . O . 5
+4 X . X X X . O . 4
+3 X . . X . X X . 3
+2 . . . . . . X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (C,7) à (B,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O . . . . O O 7
+6 . O O X O O O . 6
+5 O . O O . . O . 5
+4 X . X X X . O . 4
+3 X . . X . X X . 3
+2 . . . . . . X . 2
+1 X X X . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (C,1) à (D,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O . . . . O O 7
+6 . O O X O O O . 6
+5 O . O O . . O . 5
+4 X . X X X . O . 4
+3 X . . X . X X . 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (G,4) à (H,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O . . . . O O 7
+6 . O O X O O O . 6
+5 O . O O . . O . 5
+4 X . X X X . . . 4
+3 X . . X . X X O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (C,4) à (B,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . O . . . . O O 7
+6 . O O X O O O . 6
+5 O X O O . . O . 5
+4 X . . X X . . . 4
+3 X . . X . X X O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,7) à (A,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . . . . . . O O 7
+6 O O O X O O O . 6
+5 O X O O . . O . 5
+4 X . . X X . . . 4
+3 X . . X . X X O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (B,5) à (C,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O O . . O . 8
+7 . . . . . . O O 7
+6 O O X X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . . . 4
+3 X . . X . X X O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (D,8) à (D,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . . . 4
+3 X . . X . X X O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,3) à (G,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . X . 4
+3 X . . X . X . O 3
+2 . . . X . . X . 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,3) à (H,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . X . 4
+3 X . . X . X . . 3
+2 . . . X . . X O 2
+1 X X . . X . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,1) à (E,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O O . . O . 5
+4 X . . X X . X . 4
+3 X . . X . X . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (D,5) à (E,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O . . . O . 5
+4 X . . X O . X . 4
+3 X . . X . X . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,3) à (C,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O O . 6
+5 O . O . . . O . 5
+4 X . X X O . X . 4
+3 X . . . . X . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (G,6) à (H,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O . . 6
+5 O . O . . . O O 5
+4 X . X X O . X . 4
+3 X . . . . X . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (F,3) à (E,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O O X X O O . . 6
+5 O . O . . . O O 5
+4 X . X X X . X . 4
+3 X . . . . . . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,6) à (B,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O . X X O O . . 6
+5 O O O . . . O O 5
+4 X . X X X . X . 4
+3 X . . . . . . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,4) à (E,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O . X X O O . . 6
+5 O O O . X . O O 5
+4 X . X . X . X . 4
+3 X . . . . . . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,5) à (C,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O . X X O O . . 6
+5 O . O . X . O O 5
+4 X . O . X . X . 4
+3 X . . . . . . . 3
+2 . . . X X . X O 2
+1 X X . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (B,1) à (C,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O . X X O O . . 6
+5 O . O . X . O O 5
+4 X . O . X . X . 4
+3 X . . . . . . . 3
+2 . . X X X . X O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,5) à (H,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . . O . . O O 7
+6 O . X X O O . . 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . . . . . 3
+2 . . X X X . X O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,6) à (C,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . X O . . O O 7
+6 O . X . O O . . 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . . . . . 3
+2 . . X X X . X O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (G,7) à (H,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . X O . . . O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . . . . . 3
+2 . . X X X . X O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,2) à (G,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . O . 8
+7 . . X O . . . O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . . . X . 3
+2 . . X X X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (G,8) à (G,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . . . 8
+7 . . X O . . O O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . . . X . 3
+2 . . X X X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (D,2) à (E,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . . . 8
+7 . . X O . . O O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . X . X . 3
+2 . . X . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (C,8) à (B,7)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . O X O . . O O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . . . X . X . 3
+2 . . X . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (C,2) à (C,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . O X O . . O O 7
+6 O . X . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . X . X . X . 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (B,7) à (C,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . O O . O 6
+5 O . O . X . O . 5
+4 X . O . X . X O 4
+3 X . X . X . X . 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (C,3) à (B,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . O O . O 6
+5 O . O . X . O . 5
+4 X X O . X . X O 4
+3 X . . . X . X . 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,4) à (H,3)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . O O . O 6
+5 O . O . X . O . 5
+4 X X O . X . X . 4
+3 X . . . X . X O 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (E,5) à (F,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . O X . O 6
+5 O . O . . . O . 5
+4 X X O . X . X . 4
+3 X . . . X . X O 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (E,6) à (E,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . . X . O 6
+5 O . O . O . O . 5
+4 X X O . X . X . 4
+3 X . . . X . X O 3
+2 . . . . X . . O 2
+1 X . . . . . . X 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (H,1) à (G,2)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X O . . O O 7
+6 O . O . . X . O 6
+5 O . O . O . O . 5
+4 X X O . X . X . 4
+3 X . . . X . X O 3
+2 . . . . X . X O 2
+1 X . . . . . . . 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (D,7) à (E,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X . . . O O 7
+6 O . O . O X . O 6
+5 O . O . O . O . 5
+4 X X O . X . X . 4
+3 X . . . X . X O 3
+2 . . . . X . X O 2
+1 X . . . . . . . 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,4) à (H,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X . . . O O 7
+6 O . O . O X . O 6
+5 O . O . O . O X 5
+4 X X O . X . . . 4
+3 X . . . X . X O 3
+2 . . . . X . X O 2
+1 X . . . . . . . 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (E,6) à (D,5)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X . . . O O 7
+6 O . O . . X . O 6
+5 O . O O O . O X 5
+4 X X O . X . . . 4
+3 X . . . X . X O 3
+2 . . . . X . X O 2
+1 X . . . . . . . 1
+  A B C D E F G H
+
+🔁 Replay: Joueur X joue de (G,3) à (F,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X . . . O O 7
+6 O . O . . X . O 6
+5 O . O O O . O X 5
+4 X X O . X X . . 4
+3 X . . . X . . O 3
+2 . . . . X . X O 2
+1 X . . . . . . . 1
+  A B C D E F G H
+
+🔁 Replay: Joueur O joue de (H,2) à (H,1)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . . . . 8
+7 . . X . . . O O 7
+6 O . O . . X . O 6
+5 O . O O O . O X 5
+4 X X O . X X . . 4
+3 X . . . X . . O 3
+2 . . . . X . X . 2
+1 X . . . . . . O 1
+  A B C D E F G H
+
+🏆 Le joueur O gagne!
