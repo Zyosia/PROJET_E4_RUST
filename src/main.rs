@@ -40,7 +40,7 @@ fn main_menu() -> u32 {
 /// displaying the scoreboard, running the tournament, replaying a game, or ending the tournament.
 fn start_tournament() {
     let mut tournament = Tournament::new();
-
+    tournament.add_all_ai().unwrap();
     clear_screen();
 
     // Ask the tournament name

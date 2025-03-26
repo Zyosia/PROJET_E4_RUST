@@ -62,6 +62,9 @@ impl Tournament {
             return Err("Fatal Error".to_string());
         }
         println!("✅ IA ajoutée avec succès !");
+
+        Self::add_all_ai(self).unwrap();
+        
         Ok(())
     }
 
@@ -79,7 +82,7 @@ impl Tournament {
     /// Loads all AI participants into the tournament.
     /// # Returns
     /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
-    fn add_all_ai(&mut self) -> Result<(), String>{
+    pub fn add_all_ai(&mut self) -> Result<(), String>{
         // Charge les IA
         let mut ai_functions_data = load_ai_functions().unwrap();
         if ai_functions_data.is_empty(){
@@ -92,7 +95,11 @@ impl Tournament {
             }
             let ai_data = ai_functions_data.pop();
             let Some((lib, ai_function, ai_name)) = ai_data.unwrap() else {panic!("Erreur: impossible de récupéré les données de l'IA")};
-            Self::add_participant(self, ai_name, lib, ai_function);
+            
+            if self.ai_functions.contains_key(&ai_name) == false {
+                Self::add_participant(self, ai_name, lib, ai_function);
+            }
+
         }
         Ok(())
     }

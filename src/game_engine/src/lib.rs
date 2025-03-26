@@ -233,7 +233,14 @@ pub fn replay_from_file(ai_name1: &str, ai_name2: &str) -> io::Result<()> {
         println!("🔁 Replay: Joueur {} joue de ({},{}) à ({},{})", player, from_row, from_col, to_row, to_col);
         board.apply_move(from, to);
         board.print();
+        pause();
     }
-
     Ok(())
+}
+
+/// Pauses the program, waiting for the user to press Enter before continuing.
+fn pause() {
+    println!("🔄 Press Enter to continue...");
+    let mut pause_input = String::new();
+    io::stdin().read_line(&mut pause_input).unwrap();
 }
