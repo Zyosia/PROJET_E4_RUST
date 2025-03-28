@@ -85,37 +85,88 @@ $ cargo doc --open
 
 ## Aperçu 
 
+### Interface Terminale
+
 Interface principal :
 
 ```bash
-🎮 Welcome to the Tournament Manager 🎮
-1️⃣  Create a Tournament
-2️⃣  Exit
-👉 Enter your choice:
+🎮 Bienvenue sur le gestionnaire de tournoi 🎮
+1️⃣  Créer un tournoi
+2️⃣  Quitter
+👉 Saisissez votre choix: 
 ```
 
 Interface de gestion de tournois :
 
 ```bash
-🏆 Tournament Menu 🏆
-📌 Status: ⏳ Waiting
-1️⃣  Add AI
-2️⃣  Show Participants
-3️⃣  Start Tournament
-4️⃣  Display Scoreboard
-5️⃣  Run Tournament
-6️⃣  Replay Game
-7️⃣  End Tournament
-👉 Enter your choice:
+🏆 Menu du tournoi: tournois_ESIEE 🏆
+📌 Status: ⏳ En Attente
+1️⃣  Ajouter une IA
+2️⃣  Afficher les participants
+3️⃣  Démarrer le tournoi
+4️⃣  Afficher le tableau des scores
+5️⃣  Jouer le tournoi
+6️⃣  Rejouer une partie
+7️⃣  Mettre fin au tournoi
 ```
 
+Exemple d'affichage des participants :
+
+```bash
+🤖 Participants du tournoi:
+1. ia_test
+2. ai_random4
+3. ai_random3
+4. ai_random2
+5. ai_random
+🔄 Appuyez sur entrée pour continuer...
+```
 
 Exemple de tableau des scores :
 
 ```bash
-🏆 Résultats du Tournois 🏆
-1. ia_test - 2 points
-2. ai_random2 - 1 points
-3. ai_random - 0 points
-🔄 Press Enter to continue...
+🏆 Résultats du Tournoi 🏆
+1. ai_random4 - 3 points
+2. ai_random - 3 points
+3. ia_test - 2 points
+4. ai_random2 - 1 points
+5. ai_random3 - 1 points
+🔄 Appuyez sur entrée pour continuer...
 ```
+
+Exemple sélection d'un replay :
+
+```bash
+🎮 Choisissez une partie à regarder:
+1: ai_random2_vs_ai_random.txt
+2: ai_random3_vs_ai_random.txt
+3: ai_random3_vs_ai_random2.txt
+4: ai_random4_vs_ai_random.txt
+5: ai_random4_vs_ai_random2.txt
+6: ai_random4_vs_ai_random3.txt
+7: ia_test_vs_ai_random.txt
+8: ia_test_vs_ai_random2.txt
+9: ia_test_vs_ai_random3.txt
+10: ia_test_vs_ai_random4.txt
+👉 Saisissez votre choix:
+```
+
+
+### Interface Graphique
+
+Interface graphique développée avec la bibliothèque Bevy.
+
+>Menu Principal :
+>
+ >![Menu Principal](/README_FILES/menu_principal_HUD.png).
+
+
+>Menu d'ajout d'IA :
+>
+ >![Menu Principal](/README_FILES/menu_add_ia.png).
+
+
+
+ > Ajouter une IA via un fichier :
+>
+ >![Menu Principal](/README_FILES/add_ia_via_file_btn.png).

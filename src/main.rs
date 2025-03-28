@@ -28,7 +28,7 @@ fn main() {
 /// Returns the user's choice as a u32 value.
 fn main_menu() -> u32 {
     clear_screen();
-    println!("🎮 Bienvenu sur le gestionnaire de tournoi 🎮");
+    println!("🎮 Bienvenue sur le gestionnaire de tournoi 🎮");
     println!("1️⃣  Créer un tournoi");
     println!("2️⃣  Quitter");
     print!("👉 Saisissez votre choix: ");
@@ -96,7 +96,7 @@ fn start_tournament() {
                             1 => {
                                 //Save the tournament 
                                 if let Err(e) = tournament.save_tournament(){
-                                    println!("❌ Erreur sauvegarde du tournois: {}", e);
+                                    println!("❌ Erreur sauvegarde du tournoi: {}", e);
                                 }
                                 // Delete all history files
                                 if let Err(e) = delete_all_history_files() {
@@ -106,7 +106,7 @@ fn start_tournament() {
                                 return;
                             }
                             2 => {
-                                println!(" Tournois non enregistré.");
+                                println!(" Tournoi non enregistré.");
                                 // Delete all history files
                                 if let Err(e) = delete_all_history_files() {
                                     println!("❌ Erreur suppression de l'historique: {}", e);
@@ -140,26 +140,26 @@ fn tournament_menu(tournament: &Tournament) -> u32 {
 
     // Get the tournament state
     let state = match tournament.get_state() {
-        TournamentState::Waiting => "⏳ Waiting",
-        TournamentState::Started => "✅ Started",
+        TournamentState::Waiting => "⏳ En Attente",
+        TournamentState::Started => "✅ Démarré",
     };
 
-    println!("🏆 Menu du tournois: {} 🏆", tournament.get_name());
+    println!("🏆 Menu du tournoi: {} 🏆", tournament.get_name());
     println!("📌 Status: {}", state);
     println!("1️⃣  Ajouter une IA");
     println!("2️⃣  Afficher les participants");
-    println!("3️⃣  Démarrer le tournois");
+    println!("3️⃣  Démarrer le tournoi");
     println!("4️⃣  Afficher le tableau des scores");
     println!("5️⃣  Jouer le tournoi");
     println!("6️⃣  Rejouer une partie");
-    println!("7️⃣  Mettre fin au tournois");
+    println!("7️⃣  Mettre fin au tournoi");
     print!("👉 Saisissez votre choix: ");
     read_input()
 }
 
 fn end_tournament_menu() -> u32 {
     clear_screen();
-    println!("Souhaitez vous enregistrer le tournois ?");
+    println!("Souhaitez-vous enregistrer le tournoi ?");
     println!("1️⃣  Oui");
     println!("2️⃣  Non");
     print!("👉 Saisissez votre choix: ");
@@ -172,18 +172,18 @@ fn replay_game() {
     match list_available_games() {
         Ok(games) => {
             if games.is_empty() {
-                println!("❌ No games found in history.");
+                println!("❌ Aucune partie trouvée.");
                 pause();
                 return;
             }
 
-            println!("🎮 Select a game to replay:");
+            println!("🎮 Choisissez une partie à regarder:");
 
             for (index, game) in games.iter().enumerate() {
                 println!("{}: {}", index + 1, game);
             }
 
-            print!("👉 Enter the number of the game to replay: ");
+            print!("👉 Saisissez votre choix: ");
             let choice = read_input();
 
             if choice > 0 && choice <= games.len() as u32 {
@@ -194,16 +194,16 @@ fn replay_game() {
 
                 // Replay the selected game
                 if let Err(e) = replay_from_file(ai_name1, ai_name2) {
-                    println!("❌ Error replaying the game: {}", e);
+                    println!("❌ Erreur lecture du replay: {}", e);
                 }
                 pause();
             } else {
-                println!("❌ Invalid selection.");
+                println!("❌ Choix invalide.");
                 pause();
             }
         }
         Err(e) => {
-            println!("❌ Error reading game history: {}", e);
+            println!("❌ Erreur de lecture de l'historique de la partie: {}", e);
             pause();
         }
     }
@@ -225,7 +225,7 @@ fn read_input() -> u32 {
 
 /// Pauses the program, waiting for the user to press Enter before continuing.
 fn pause() {
-    println!("🔄 Press Enter to continue...");
+    println!("🔄 Appuyez sur entrée pour continuer...");
     let mut pause_input = String::new();
     io::stdin().read_line(&mut pause_input).unwrap();
 }
@@ -263,11 +263,11 @@ fn delete_all_history_files() -> io::Result<()> {
         
         if file_name.to_string_lossy().ends_with(".txt") {
             let file_path = entry.path();
-            println!("Deleting file: {}", file_path.display());
+            println!("Suppression: {}", file_path.display());
             fs::remove_file(file_path)?;
         }
     }
 
-    println!("✅ All history files deleted.");
+    println!("✅ Suppression de l'historique terminée.");
     Ok(())
 }

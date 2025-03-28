@@ -111,7 +111,7 @@ impl Tournament {
     pub fn start(&mut self) -> Result<(), String> {
 
         if self.state == TournamentState::Started {
-            return Err("❌ Le tournois a déjà commencé.".to_string());
+            return Err("❌ Le tournoi a déjà commencé.".to_string());
         }
 
         // Compilation des IA
@@ -195,7 +195,7 @@ impl Tournament {
         let mut sorted_scores: Vec<(&String, &usize)> = self.scores.iter().collect();
         sorted_scores.sort_by(|a, b| b.1.cmp(a.1)); // Sort descending
 
-        println!("\n🏆 Résultats du Tournois 🏆");
+        println!("\n🏆 Résultats du Tournoi 🏆");
         for (rank, (ai_name, score)) in sorted_scores.iter().enumerate() {
             println!("{}. {} - {} points", rank + 1, ai_name, score);
         }
@@ -207,7 +207,7 @@ impl Tournament {
             println!("❌ Aucun participant enregistré.");
             return;
         }
-        println!("\n🤖 Participants du tournois:");
+        println!("\n🤖 Participants du tournoi:");
         for (i, ai) in self.participants.iter().enumerate() {
             println!("{}. {}", i + 1, ai);
         }
