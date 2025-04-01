@@ -17,6 +17,7 @@ pub struct Tournament {
     participants: Vec<String>,  // Names of AI participants
     ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>)>,
     scores: HashMap<String, usize>,
+    nombre_parties: i32,
 }
 
 impl Tournament {
@@ -29,6 +30,7 @@ impl Tournament {
             participants: Vec::new(),
             ai_functions: HashMap::new(),
             scores: HashMap::new(),
+            nombre_parties: 1,
         }
     }
 
@@ -47,6 +49,13 @@ impl Tournament {
     /// - `name` - The name of the tournament.
     pub fn set_tournament_name(&mut self, name: String) {
         self.tournament_name = name;
+    }
+
+    /// Set the number of game played
+    /// # Arguments
+    /// - `nombre_parties` - The number of game played.
+    pub fn set_number_of_games(&mut self, nombre_parties: i32) {
+        self.nombre_parties = nombre_parties;
     }
 
     /// Adds a new AI to the tournament.
@@ -168,16 +177,14 @@ impl Tournament {
                             Some(lib1.clone()),
                             Some(lib2.clone()),
                         );
-
-                        game.run().unwrap();
-
-                        // Assuming we have a method to determine the winner
-                        let winner = game.get_board().check_winner().unwrap_or(' ');
-
-                        if winner == 'X' {
-                            *self.scores.get_mut(ai_name1).unwrap() += 1;
-                        } else if winner == 'O' {
-                            *self.scores.get_mut(ai_name2).unwrap() += 1;
+                        for i in 0..self.set_number_of_games {
+                            game.run().unwrap();
+                            let winner = game.get_board().check_winner().unwrap_or(' ');
+                            if winner == 'X' {
+                                *self.scores.get_mut(ai_name1).unwrap() += 1;
+                            } else if winner == 'O' {
+                                *self.scores.get_mut(ai_name2).unwrap() += 1;
+                            }
                         }
                     }
                 }

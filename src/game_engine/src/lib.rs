@@ -160,7 +160,7 @@ impl Game {
         let mut file_writer = &mut writer;
 
         loop {
-            self.board.print();
+            //self.board.print();
             
             let ai_move_function = if self.player == 'X' {
                 self.ai_function1.as_ref()
@@ -171,29 +171,36 @@ impl Game {
             if let Some(ai_move_function) = ai_move_function {
                 match ai_move_function(&self.board, self.player) {
                     Some((from, to)) => {
-                        let (from_row, from_col) = Self::format_position(from);
-                        let (to_row, to_col) = Self::format_position(to);
+                        if self.board.is_valid_move(from, to, self.player) {
+                            let (from_row, from_col) = Self::format_position(from);
+                            let (to_row, to_col) = Self::format_position(to);
 
-                        println!("Joueur {} joue de ({},{}) à ({},{})", self.player, from_row, from_col, to_row, to_col);
+                            //println!("Joueur {} joue de ({},{}) à ({},{})", self.player, from_row, from_col, to_row, to_col);
 
-                        let output = format!("🔁 Replay: Joueur {} joue de ({},{}) à ({},{})", self.player, from_row, from_col, to_row, to_col);
-                        writeln!(file_writer, "{}", output)?;
-
-                        self.board.apply_move(from, to);
-                        self.history.record_move(self.player, from, to);
-                        writeln!(file_writer, "Plateau après le coup:")?;
-                        self.board.print_to_file(&mut file_writer)?;
-
-                        if let Some(winner) = self.board.check_winner() {
-                            self.board.print();
-                            println!("🏆 Le joueur {} gagne!", winner);
-                            let output = format!("🏆 Le joueur {} gagne!", winner);
+                            let output = format!("🔁 Replay: Joueur {} joue de ({},{}) à ({},{})", self.player, from_row, from_col, to_row, to_col);
                             writeln!(file_writer, "{}", output)?;
+                            self.board.apply_move(from, to);
+                            self.history.record_move(self.player, from, to);
+                            writeln!(file_writer, "Plateau après le coup:")?;
+                            self.board.print_to_file(&mut file_writer)?;
+
+                            if let Some(winner) = self.board.check_winner() {
+                                self.board.print();
+                                //println!("🏆 Le joueur {} gagne!", winner);
+                                let output = format!("🏆 Le joueur {} gagne!", winner);
+                                writeln!(file_writer, "{}", output)?;
+                                self.history.save_to_file(&history_filename).unwrap();
+                                //println!("✅ Replay enregistré dans: {}", replay_filename);
+                                break Ok (());
+                            }
+                            self.player = if self.player == 'X' { 'O' } else { 'X' };
+                        } else {
+                            println!("❌ Coup illégal. Le joueur {} perd!", self.player);
                             self.history.save_to_file(&history_filename).unwrap();
                             println!("✅ Replay enregistré dans: {}", replay_filename);
-                            break Ok (());
+                            break Ok(());
                         }
-                        self.player = if self.player == 'X' { 'O' } else { 'X' };
+                        
                     }
                     None => {
                         println!("❌ Aucun coup possible. Le joueur {} perd!", self.player);

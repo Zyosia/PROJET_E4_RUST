@@ -33,6 +33,9 @@ Ouvrez un <span style="color:rgb(38, 87, 178)">Terminal</span> de commande et as
 > $ ls
 >Cargo.lock Cargo.toml LICENSE README.md src/
 >```
+
+<div style="page-break-after: always;"></div>
+
 >Windows :
 >```powershell
 > PS C:\Chemin_vers_votre_dossier\PROJET_E4_RUST> dir
@@ -82,6 +85,8 @@ $ cargo doc --open
     - Replay des parties.
     - Enregistrement des parties.
 - Interface Terminale Interactive (Vous pouvez avoir un aperçu [ici](#aperçu))
+
+<div style="page-break-after: always;"></div>
 
 ## Aperçu 
 
@@ -134,6 +139,8 @@ Exemple de tableau des scores :
 🔄 Appuyez sur entrée pour continuer...
 ```
 
+<div style="page-break-after: always;"></div>
+
 Exemple sélection d'un replay :
 
 ```bash
@@ -151,6 +158,7 @@ Exemple sélection d'un replay :
 👉 Saisissez votre choix:
 ```
 
+<div style="page-break-after: always;"></div>
 
 ### Interface Graphique
 
@@ -158,15 +166,15 @@ Interface graphique développée avec la bibliothèque Bevy.
 
 >Menu Principal :
 >
- >![Menu Principal](/README_FILES/menu_principal_HUD.png).
+ >![Menu Principal](README_FILES/menu_principal_HUD.png).
 
 
 >Menu d'ajout d'IA :
 >
- >![Menu Principal](/README_FILES/menu_add_ia.png).
+ >![Menu Principal](README_FILES/menu_add_ia.png).
 
-
+<div style="page-break-after: always;"></div>
 
  > Ajouter une IA via un fichier :
 >
- >![Menu Principal](/README_FILES/add_ia_via_file_btn.png).
+ >![Menu Principal](README_FILES/add_ia_via_file_btn.png).
