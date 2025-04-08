@@ -47,15 +47,24 @@ impl Tournament {
     /// Set the tournament name
     /// # Arguments
     /// - `name` - The name of the tournament.
-    pub fn set_tournament_name(&mut self, name: String) {
+    pub fn set_tournament_name(&mut self, name: String) -> Result<(), String> {
+        if self.state == TournamentState::Started{
+            return Err("❌ Impossible de changer le nombre de partie le tournois a déjà commencé !".to_string());
+        }
         self.tournament_name = name;
+        Ok(())
     }
 
     /// Set the number of game played
     /// # Arguments
     /// - `nombre_parties` - The number of game played.
-    pub fn set_number_of_games(&mut self, nombre_parties: i32) {
+    pub fn set_number_of_games(&mut self, nombre_parties: i32) -> Result<(), String>{
         self.nombre_parties = nombre_parties;
+        Ok(())
+    }
+
+    pub fn get_number_of_games(&self) -> i32{
+        self.nombre_parties.clone()
     }
 
     /// Adds a new AI to the tournament.
@@ -177,7 +186,7 @@ impl Tournament {
                             Some(lib1.clone()),
                             Some(lib2.clone()),
                         );
-                        for i in 0..self.set_number_of_games {
+                        for _i in 0..self.nombre_parties {
                             game.run().unwrap();
                             let winner = game.get_board().check_winner().unwrap_or(' ');
                             if winner == 'X' {

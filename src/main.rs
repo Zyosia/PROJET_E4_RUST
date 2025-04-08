@@ -48,7 +48,7 @@ fn start_tournament() {
     let mut tournament_name = String::new();
     io::stdin().read_line(&mut tournament_name).expect("Échec de la lecture de l'entrée");
     let tournament_name = tournament_name.trim().to_string();
-    tournament.set_tournament_name(tournament_name);
+    tournament.set_tournament_name(tournament_name).unwrap();
 
     loop {
         match tournament_menu(& tournament) {
@@ -61,33 +61,52 @@ fn start_tournament() {
             }
             2 => {
                 clear_screen();
-                tournament.show_participants();
+                let number_of_games: i32 = loop {
+                    println!("Entrez le nombre de partie(s) joué par match :");
+                
+                    let mut input = String::new();
+                    io::stdin().read_line(&mut input).expect("Échec de la lecture de l'entrée");
+                
+                    match input.trim().parse() {
+                        Ok(num) => break num,
+                        Err(_) => {
+                            println!("Entrée invalide. Veuillez entrer un nombre entier.");
+                        }
+                    }
+                };
+
+                tournament.set_number_of_games(number_of_games).unwrap();
                 pause();
             }
             3 => {
+                clear_screen();
+                tournament.show_participants();
+                pause();
+            }
+            4 => {
                 clear_screen();
                 if let Err(e) = tournament.start() {
                     println!("{}", e);
                 }
                 pause();
             }
-            4 => {
+            5 => {
                 clear_screen();
                 tournament.display_scoreboard();
                 pause();
             }
-            5 => {
+            6 => {
                 clear_screen();
                 if let Err(e) = tournament.run() {
                     println!("{}", e);
                 }
                 pause();
             }
-            6 => {
+            7 => {
                 clear_screen();
                 replay_game(); // Handle the replay game option
             }
-            7 => {
+            8 => {
                 clear_screen();
                 println!("🏁 Ending Tournament...");
                 if tournament.get_state() == TournamentState::Started{
@@ -146,13 +165,15 @@ fn tournament_menu(tournament: &Tournament) -> u32 {
 
     println!("🏆 Menu du tournoi: {} 🏆", tournament.get_name());
     println!("📌 Status: {}", state);
+    println!("Nombre de partie(s) par match : {}", tournament.get_number_of_games());
     println!("1️⃣  Ajouter une IA");
-    println!("2️⃣  Afficher les participants");
-    println!("3️⃣  Démarrer le tournoi");
-    println!("4️⃣  Afficher le tableau des scores");
-    println!("5️⃣  Jouer le tournoi");
-    println!("6️⃣  Rejouer une partie");
-    println!("7️⃣  Mettre fin au tournoi");
+    println!("2️⃣  Définir le nombre de parties par match");
+    println!("3️⃣  Afficher les participants");
+    println!("4️⃣  Démarrer le tournoi");
+    println!("5️⃣  Afficher le tableau des scores");
+    println!("6️⃣  Jouer le tournoi");
+    println!("7️⃣  Rejouer une partie");
+    println!("8️⃣  Mettre fin au tournoi");
     print!("👉 Saisissez votre choix: ");
     read_input()
 }
