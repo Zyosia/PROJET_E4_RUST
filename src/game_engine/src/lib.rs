@@ -2,7 +2,7 @@ use board::Board;
 use game_history::History;
 use std::io::{self, Write, BufWriter};
 use std::{time::Duration, thread::sleep};
-use std::fs::File;
+use std::fs::{self, File};
 use std::sync::Arc;
 use libloading::Library;
 
@@ -78,10 +78,14 @@ impl Game {
     ///
     /// # Returns
     /// - `Result<(), Box<dyn std::error::Error>>`: Returns `Ok(())` if the game completes successfully, otherwise an error.
-    pub fn run(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let history_filename = format!("{}_vs_{}.txt", self.ai_name1, self.ai_name2);
-        let replay_filename = format!("src/games_history/replay_{}_vs_{}.txt", self.ai_name1, self.ai_name2);
+    pub fn run(&mut self, game_number: i32) -> Result<(), Box<dyn std::error::Error>> {
+        let history_filename = format!("{}_vs_{}_game_{}.txt", self.ai_name1, self.ai_name2, game_number);
+        let folder_path = "src/games_history";
+        let replay_filename = format!("{}/replay_{}_vs_{}_game_{}.txt", folder_path, self.ai_name1, self.ai_name2, game_number);
         
+        // Créer le dossier s'il n'existe pas
+        fs::create_dir_all(folder_path)?;
+
         // Open the replay file for writing
         let file = File::create(&replay_filename)?;
         let mut writer = BufWriter::new(file);
@@ -174,22 +178,8 @@ pub fn replay_from_file(ai_name1: &str, ai_name2: &str) -> io::Result<()> {
 
         board.apply_move(*from, *to);
         board.print();
-<<<<<<< HEAD
         sleep(Duration::from_millis(500)); // half second between moves
     });
 
     Ok(())
 }
-=======
-        pause();
-    }
-    Ok(())
-}
-
-/// Pauses the program, waiting for the user to press Enter before continuing.
-fn pause() {
-    println!("🔄 Press Enter to continue...");
-    let mut pause_input = String::new();
-    io::stdin().read_line(&mut pause_input).unwrap();
-}
->>>>>>> origin/main

@@ -5,6 +5,5 @@ edition = "2024"
 
 [dependencies]
 libloading = "0.8"
-rand = "0.8"
 board = { path = "../board" }
-ai_manager = { path = "../ai_manager" }
+game_history = { path = "../game_history" }

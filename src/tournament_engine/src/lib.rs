@@ -30,7 +30,7 @@ impl Tournament {
             participants: Vec::new(),
             ai_functions: HashMap::new(),
             scores: HashMap::new(),
-            nombre_parties: 1,
+            nombre_parties: 10,
         }
     }
 
@@ -186,8 +186,8 @@ impl Tournament {
                             Some(lib1.clone()),
                             Some(lib2.clone()),
                         );
-                        for _i in 0..self.nombre_parties {
-                            game.run().unwrap();
+                        for i in 0..self.nombre_parties {
+                            game.run(i + 1).unwrap();
                             let winner = game.get_board().check_winner().unwrap_or(' ');
                             if winner == 'X' {
                                 *self.scores.get_mut(ai_name1).unwrap() += 1;
