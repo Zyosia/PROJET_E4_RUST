@@ -1,3 +1,10 @@
+use gui::run_graphics;
+
+fn main(){
+    run_graphics();
+}
+
+/*
 use crossterm::{
     execute,
     terminal::{Clear, ClearType},
@@ -292,3 +299,5 @@ fn delete_all_history_files() -> io::Result<()> {
     println!("✅ Suppression de l'historique terminée.");
     Ok(())
 }
+
+*/

@@ -8,3 +8,4 @@ crossterm = "0.27"
 game_engine = { path = "src/game_engine" }
 tournament_engine = { path= "src/tournament_engine" }
 debug_tool = { path = "src/debug_tool" }
+gui = { path = "src/gui" }
