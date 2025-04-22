@@ -13,11 +13,11 @@ fn main() {
         match main_menu() {
             1 => start_tournament(),
             2 => {
-                println!("👋 Exiting... 🚪");
+                println!("👋 Fermeture... 🚪");
                 break;
             }
             _ => {
-                println!("❌ Invalid choice. Try again.");
+                println!("❌ Choix invalide. Veuillez réessayer");
                 pause();
             }
         }
@@ -28,10 +28,10 @@ fn main() {
 /// Returns the user's choice as a u32 value.
 fn main_menu() -> u32 {
     clear_screen();
-    println!("🎮 Welcome to the Tournament Manager 🎮");
-    println!("1️⃣  Create a Tournament");
-    println!("2️⃣  Exit");
-    print!("👉 Enter your choice: ");
+    println!("🎮 Bienvenue sur le gestionnaire de tournoi 🎮");
+    println!("1️⃣  Créer un tournoi");
+    println!("2️⃣  Quitter");
+    print!("👉 Saisissez votre choix: ");
     read_input()
 }
 
@@ -40,9 +40,18 @@ fn main_menu() -> u32 {
 /// displaying the scoreboard, running the tournament, replaying a game, or ending the tournament.
 fn start_tournament() {
     let mut tournament = Tournament::new();
+    tournament.add_all_ai().unwrap();
+    clear_screen();
+
+    // Ask the tournament name
+    println!("🏆 Entrez le nom du tournoi :");
+    let mut tournament_name = String::new();
+    io::stdin().read_line(&mut tournament_name).expect("Échec de la lecture de l'entrée");
+    let tournament_name = tournament_name.trim().to_string();
+    tournament.set_tournament_name(tournament_name).unwrap();
 
     loop {
-        match tournament_menu(&tournament) {
+        match tournament_menu(& tournament) {
             1 => {
                 clear_screen();
                 if let Err(e) = tournament.add_ia() {
@@ -52,44 +61,90 @@ fn start_tournament() {
             }
             2 => {
                 clear_screen();
-                tournament.show_participants();
+                let number_of_games: i32 = loop {
+                    println!("Entrez le nombre de partie(s) joué par match :");
+                
+                    let mut input = String::new();
+                    io::stdin().read_line(&mut input).expect("Échec de la lecture de l'entrée");
+                
+                    match input.trim().parse() {
+                        Ok(num) => break num,
+                        Err(_) => {
+                            println!("Entrée invalide. Veuillez entrer un nombre entier.");
+                        }
+                    }
+                };
+
+                tournament.set_number_of_games(number_of_games).unwrap();
                 pause();
             }
             3 => {
+                clear_screen();
+                tournament.show_participants();
+                pause();
+            }
+            4 => {
                 clear_screen();
                 if let Err(e) = tournament.start() {
                     println!("{}", e);
                 }
                 pause();
             }
-            4 => {
+            5 => {
                 clear_screen();
                 tournament.display_scoreboard();
                 pause();
             }
-            5 => {
+            6 => {
                 clear_screen();
                 if let Err(e) = tournament.run() {
                     println!("{}", e);
                 }
                 pause();
             }
-            6 => {
+            7 => {
                 clear_screen();
                 replay_game(); // Handle the replay game option
             }
-            7 => {
+            8 => {
                 clear_screen();
                 println!("🏁 Ending Tournament...");
-                // Delete all history files
-                if let Err(e) = delete_all_history_files() {
-                    println!("❌ Error deleting history files: {}", e);
+                if tournament.get_state() == TournamentState::Started{
+                    loop{
+                        match end_tournament_menu(){
+                            1 => {
+                                //Save the tournament 
+                                if let Err(e) = tournament.save_tournament(){
+                                    println!("❌ Erreur sauvegarde du tournoi: {}", e);
+                                }
+                                // Delete all history files
+                                if let Err(e) = delete_all_history_files() {
+                                    println!("❌ Erreur suppression de l'historique: {}", e);
+                                }
+                                pause();
+                                return;
+                            }
+                            2 => {
+                                println!(" Tournoi non enregistré.");
+                                // Delete all history files
+                                if let Err(e) = delete_all_history_files() {
+                                    println!("❌ Erreur suppression de l'historique: {}", e);
+                                }
+                                pause();
+                                return;
+                            }
+                            _ => {
+                                println!("❌ Choix invalide. Veuillez réessayer.");
+                                pause();
+                            }
+                        }
+                    } // loop end_tournament_menu
                 }
                 pause();
                 return; // Go back to the main menu
             }
             _ => {
-                println!("❌ Invalid choice. Try again.");
+                println!("❌ Choix invalide. Veuillez réessayer.");
                 pause();
             }
         }
@@ -101,23 +156,34 @@ fn start_tournament() {
 /// Returns the user's choice as a u32 value.
 fn tournament_menu(tournament: &Tournament) -> u32 {
     clear_screen();
-    
+
     // Get the tournament state
     let state = match tournament.get_state() {
-        TournamentState::Waiting => "⏳ Waiting",
-        TournamentState::Started => "✅ Started",
+        TournamentState::Waiting => "⏳ En Attente",
+        TournamentState::Started => "✅ Démarré",
     };
 
-    println!("🏆 Tournament Menu 🏆");
+    println!("🏆 Menu du tournoi: {} 🏆", tournament.get_name());
     println!("📌 Status: {}", state);
-    println!("1️⃣  Add AI");
-    println!("2️⃣  Show Participants");
-    println!("3️⃣  Start Tournament");
-    println!("4️⃣  Display Scoreboard");
-    println!("5️⃣  Run Tournament");
-    println!("6️⃣  Replay Game");
-    println!("7️⃣  End Tournament");
-    print!("👉 Enter your choice: ");
+    println!("Nombre de partie(s) par match : {}", tournament.get_number_of_games());
+    println!("1️⃣  Ajouter une IA");
+    println!("2️⃣  Définir le nombre de parties par match");
+    println!("3️⃣  Afficher les participants");
+    println!("4️⃣  Démarrer le tournoi");
+    println!("5️⃣  Afficher le tableau des scores");
+    println!("6️⃣  Jouer le tournoi");
+    println!("7️⃣  Rejouer une partie");
+    println!("8️⃣  Mettre fin au tournoi");
+    print!("👉 Saisissez votre choix: ");
+    read_input()
+}
+
+fn end_tournament_menu() -> u32 {
+    clear_screen();
+    println!("Souhaitez-vous enregistrer le tournoi ?");
+    println!("1️⃣  Oui");
+    println!("2️⃣  Non");
+    print!("👉 Saisissez votre choix: ");
     read_input()
 }
 
@@ -127,18 +193,18 @@ fn replay_game() {
     match list_available_games() {
         Ok(games) => {
             if games.is_empty() {
-                println!("❌ No games found in history.");
+                println!("❌ Aucune partie trouvée.");
                 pause();
                 return;
             }
 
-            println!("🎮 Select a game to replay:");
+            println!("🎮 Choisissez une partie à regarder:");
 
             for (index, game) in games.iter().enumerate() {
                 println!("{}: {}", index + 1, game);
             }
 
-            print!("👉 Enter the number of the game to replay: ");
+            print!("👉 Saisissez votre choix: ");
             let choice = read_input();
 
             if choice > 0 && choice <= games.len() as u32 {
@@ -149,16 +215,16 @@ fn replay_game() {
 
                 // Replay the selected game
                 if let Err(e) = replay_from_file(ai_name1, ai_name2) {
-                    println!("❌ Error replaying the game: {}", e);
+                    println!("❌ Erreur lecture du replay: {}", e);
                 }
                 pause();
             } else {
-                println!("❌ Invalid selection.");
+                println!("❌ Choix invalide.");
                 pause();
             }
         }
         Err(e) => {
-            println!("❌ Error reading game history: {}", e);
+            println!("❌ Erreur de lecture de l'historique de la partie: {}", e);
             pause();
         }
     }
@@ -180,7 +246,7 @@ fn read_input() -> u32 {
 
 /// Pauses the program, waiting for the user to press Enter before continuing.
 fn pause() {
-    println!("🔄 Press Enter to continue...");
+    println!("🔄 Appuyez sur entrée pour continuer...");
     let mut pause_input = String::new();
     io::stdin().read_line(&mut pause_input).unwrap();
 }
@@ -218,11 +284,11 @@ fn delete_all_history_files() -> io::Result<()> {
         
         if file_name.to_string_lossy().ends_with(".txt") {
             let file_path = entry.path();
-            println!("Deleting file: {}", file_path.display());
+            println!("Suppression: {}", file_path.display());
             fs::remove_file(file_path)?;
         }
     }
 
-    println!("✅ All history files deleted.");
+    println!("✅ Suppression de l'historique terminée.");
     Ok(())
 }

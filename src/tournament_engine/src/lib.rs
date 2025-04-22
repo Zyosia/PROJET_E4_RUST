@@ -1,4 +1,4 @@
-use std::{sync::Arc, collections::HashMap};
+use std::{sync::Arc, collections::HashMap, fs, path::Path, io};
 use libloading::{Library};
 use board::Board;
 use game_engine::Game;
@@ -12,10 +12,12 @@ pub enum TournamentState {
 }
 
 pub struct Tournament {
+    tournament_name: String,
     state: TournamentState,
     participants: Vec<String>,  // Names of AI participants
     ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>)>,
     scores: HashMap<String, usize>,
+    nombre_parties: i32,
 }
 
 impl Tournament {
@@ -23,16 +25,46 @@ impl Tournament {
     /// Creates a new tournament instance.
     pub fn new() -> Self {
         Self {
+            tournament_name: String::new(),
             state: TournamentState::Waiting,
             participants: Vec::new(),
             ai_functions: HashMap::new(),
             scores: HashMap::new(),
+            nombre_parties: 1,
         }
     }
 
     /// Returns the current state of the tournament.
     pub fn get_state(&self) -> TournamentState {
         self.state.clone()
+    }
+
+    /// Returns the tournament name
+    pub fn get_name(&self) -> String {
+        self.tournament_name.clone()
+    }
+
+    /// Set the tournament name
+    /// # Arguments
+    /// - `name` - The name of the tournament.
+    pub fn set_tournament_name(&mut self, name: String) -> Result<(), String> {
+        if self.state == TournamentState::Started{
+            return Err("❌ Impossible de changer le nombre de partie le tournois a déjà commencé !".to_string());
+        }
+        self.tournament_name = name;
+        Ok(())
+    }
+
+    /// Set the number of game played
+    /// # Arguments
+    /// - `nombre_parties` - The number of game played.
+    pub fn set_number_of_games(&mut self, nombre_parties: i32) -> Result<(), String>{
+        self.nombre_parties = nombre_parties;
+        Ok(())
+    }
+
+    pub fn get_number_of_games(&self) -> i32{
+        self.nombre_parties.clone()
     }
 
     /// Adds a new AI to the tournament.
@@ -48,6 +80,9 @@ impl Tournament {
             return Err("Fatal Error".to_string());
         }
         println!("✅ IA ajoutée avec succès !");
+
+        Self::add_all_ai(self).unwrap();
+        
         Ok(())
     }
 
@@ -65,7 +100,7 @@ impl Tournament {
     /// Loads all AI participants into the tournament.
     /// # Returns
     /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
-    fn add_all_ai(&mut self) -> Result<(), String>{
+    pub fn add_all_ai(&mut self) -> Result<(), String>{
         // Charge les IA
         let mut ai_functions_data = load_ai_functions().unwrap();
         if ai_functions_data.is_empty(){
@@ -78,7 +113,11 @@ impl Tournament {
             }
             let ai_data = ai_functions_data.pop();
             let Some((lib, ai_function, ai_name)) = ai_data.unwrap() else {panic!("Erreur: impossible de récupéré les données de l'IA")};
-            Self::add_participant(self, ai_name, lib, ai_function);
+            
+            if self.ai_functions.contains_key(&ai_name) == false {
+                Self::add_participant(self, ai_name, lib, ai_function);
+            }
+
         }
         Ok(())
     }
@@ -90,7 +129,7 @@ impl Tournament {
     pub fn start(&mut self) -> Result<(), String> {
 
         if self.state == TournamentState::Started {
-            return Err("❌ Le tournois a déjà commencé.".to_string());
+            return Err("❌ Le tournoi a déjà commencé.".to_string());
         }
 
         // Compilation des IA
@@ -147,16 +186,14 @@ impl Tournament {
                             Some(lib1.clone()),
                             Some(lib2.clone()),
                         );
-
-                        game.run().unwrap();
-
-                        // Assuming we have a method to determine the winner
-                        let winner = game.get_board().check_winner().unwrap_or(' ');
-
-                        if winner == 'X' {
-                            *self.scores.get_mut(ai_name1).unwrap() += 1;
-                        } else if winner == 'O' {
-                            *self.scores.get_mut(ai_name2).unwrap() += 1;
+                        for _i in 0..self.nombre_parties {
+                            game.run().unwrap();
+                            let winner = game.get_board().check_winner().unwrap_or(' ');
+                            if winner == 'X' {
+                                *self.scores.get_mut(ai_name1).unwrap() += 1;
+                            } else if winner == 'O' {
+                                *self.scores.get_mut(ai_name2).unwrap() += 1;
+                            }
                         }
                     }
                 }
@@ -174,7 +211,7 @@ impl Tournament {
         let mut sorted_scores: Vec<(&String, &usize)> = self.scores.iter().collect();
         sorted_scores.sort_by(|a, b| b.1.cmp(a.1)); // Sort descending
 
-        println!("\n🏆 Résultats du Tournois 🏆");
+        println!("\n🏆 Résultats du Tournoi 🏆");
         for (rank, (ai_name, score)) in sorted_scores.iter().enumerate() {
             println!("{}. {} - {} points", rank + 1, ai_name, score);
         }
@@ -186,9 +223,39 @@ impl Tournament {
             println!("❌ Aucun participant enregistré.");
             return;
         }
-        println!("\n🤖 Participants du tournois:");
+        println!("\n🤖 Participants du tournoi:");
         for (i, ai) in self.participants.iter().enumerate() {
             println!("{}. {}", i + 1, ai);
         }
+    }
+    /// Save all `.txt` files from `games_history` to `tournament_save`
+    pub fn save_tournament(&self) -> io::Result<()> {
+        let source_folder = "src/games_history";
+        let destination_folder = format!("src/.tournament_saves/{}", self.tournament_name);
+
+        // Ensure the destination folder exists
+        if !Path::new(&destination_folder).exists() {
+            fs::create_dir(&destination_folder)?;
+        }
+
+        // Read all entries in the source folder
+        for entry in fs::read_dir(source_folder)? {
+            let entry = entry?;
+            let path = entry.path();
+
+            // Check if the entry is a file and ends with .txt
+            if path.is_file() && path.extension().and_then(|ext| ext.to_str()) == Some("txt") {
+                let file_name = path.file_name().unwrap(); // Get the file name
+                let new_path = Path::new(&destination_folder).join(file_name); // Destination path
+
+                // Move the file
+                fs::rename(&path, &new_path)?;
+
+                println!("✅ {} saved.", file_name.to_string_lossy());
+            }
+        }
+
+        println!("✅ {} saved", self.tournament_name);
+        Ok(())
     }
 }
