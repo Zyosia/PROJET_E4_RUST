@@ -101,6 +101,14 @@ impl Tournament {
     /// # Returns
     /// - `io::Result<(), String>`: Returns `Ok(())` if successful, otherwise returns an error.
     pub fn add_all_ai(&mut self) -> Result<(), String>{
+
+        // Compilation des IA
+        if let Err(e) = compile_all_ai() {
+            eprintln!("❌ Erreur lors de la compilation des IA: {}", e);
+            return Err("Fatal Error".to_string());
+        }
+        
+        println!("✅ Toutes les IA ont été compilées avec succès !");
         // Charge les IA
         let mut ai_functions_data = load_ai_functions().unwrap();
         if ai_functions_data.is_empty(){
@@ -131,13 +139,6 @@ impl Tournament {
         if self.state == TournamentState::Started {
             return Err("❌ Le tournoi a déjà commencé.".to_string());
         }
-
-        // Compilation des IA
-        if let Err(e) = compile_all_ai() {
-            eprintln!("❌ Erreur lors de la compilation des IA: {}", e);
-            return Err("Fatal Error".to_string());
-        }
-        println!("✅ Toutes les IA ont été compilées avec succès !");
 
         // Ajout des participants
         Self::add_all_ai(self).unwrap();
