@@ -11,7 +11,6 @@ use crate::AppState;
 
 pub struct TournamentMenuPlugin;
 
-
 impl Plugin for TournamentMenuPlugin {
     fn build(&self, app: &mut App) {
         app
@@ -20,7 +19,7 @@ impl Plugin for TournamentMenuPlugin {
             // Systems
             .add_systems(
                 Update,
-                (interact_with_end_tournament_button, interact_with_ai_insert_menu_button)
+                (interact_with_end_tournament_button, interact_with_ai_insert_menu_button, interact_with_start_tournament_button)
                     .run_if(in_state(AppState::TournamentMenu)),
             )
             // OnExit State Systems

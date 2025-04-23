@@ -8,7 +8,7 @@ bevy = { version = "0.15.3", features = ["bevy_winit", "bevy_render"] }
 accesskit = "0.17.1"
 bevy_a11y = "0.15.3"
 rfd = "0.15.3"
-winit = "0.29"
+winit = "0.30.9"
 game_engine = { path = "../game_engine" }
 tournament_engine = { path = "../tournament_engine" }
 board = { path = "../board" }

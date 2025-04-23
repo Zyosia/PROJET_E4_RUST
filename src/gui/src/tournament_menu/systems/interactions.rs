@@ -5,8 +5,11 @@ use crate::tournament_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, 
 use crate::tournament_menu::components::*;
 use crate::AppState;
 
+use tournament_engine::Tournament;
+
 pub fn interact_with_end_tournament_button(
-    mut app_exit_event_writer: EventWriter<AppExit>,
+    mut app_state_next_state: ResMut<NextState<AppState>>,
+    mut tournament: ResMut<Tournament>,
     mut button_query: Query<
         (
             &Interaction,
@@ -14,14 +17,51 @@ pub fn interact_with_end_tournament_button(
             &mut BorderColor,
         ),
         (Changed<Interaction>, With<EndTournamentButton>)
-    >
+    >,
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
         match *interaction {
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                app_exit_event_writer.send(AppExit::Success);
+
+                tournament.reset();
+
+                app_state_next_state.set(AppState::MainMenu);
+            }
+            Interaction::Hovered => {
+                *color = HOVERED_BUTTON_COLOR.into();
+                border_color.0 = Color::WHITE;
+            }
+            Interaction::None => {
+                *color = NORMAL_BUTTON_COLOR.into();
+                border_color.0 = Color::BLACK;
+            }
+        }
+    }
+}
+
+pub fn interact_with_start_tournament_button(
+    mut button_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &mut BorderColor,
+        ),
+        (Changed<Interaction>, With<StartTournamentButton>)
+    >,
+    mut tournament: ResMut<Tournament>,
+    //mut app_state_next_state: ResMut<NextState<AppState>>,
+) {
+    if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
+        match *interaction {
+            Interaction::Pressed => {
+                *color = PRESSED_BUTTON_COLOR.into();
+                border_color.0 = RED.into();
+                
+                tournament.start().unwrap();
+
+                //app_state_next_state.set(AppState::AiInsertMenu);
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

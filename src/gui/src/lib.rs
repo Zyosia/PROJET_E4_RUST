@@ -10,6 +10,8 @@ use ai_insert_menu::AiInsertMenuPlugin;
 use bevy::{prelude::*, winit::WinitSettings};
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
+use winit::dpi::{PhysicalPosition, Position};
+
 use systems::*;
 
 use tournament_engine::Tournament;
@@ -44,6 +46,19 @@ fn focus_window(
     if let Ok(primary_entity) = primary_window_query.get_single() {
         if let Some(winit_window) = winit_windows.get_window(primary_entity) {
             winit_window.focus_window(); // ← THIS works
+
+            // Center the window
+            if let Some(monitor) = winit_window.current_monitor() {
+                let monitor_size = monitor.size();
+                let window_size = winit_window.outer_size();
+
+                let new_x = ((monitor_size.width as f64 - window_size.width as f64) / 2.0).round() as i32;
+                let new_y = ((monitor_size.height as f64 - window_size.height as f64) / 2.0).round() as i32;
+
+                winit_window.set_outer_position(
+                    Position::Physical(PhysicalPosition::new(new_x, new_y))
+                );
+            }
         }
     }
 }

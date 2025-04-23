@@ -10,7 +10,6 @@ pub fn spawn_tournament_menu(mut commands: Commands, asset_server: Res<AssetServ
 }
 
 pub fn despawn_tournament_menu(mut commands: Commands, tournament_menu_query: Query<Entity, With<TournamentMenu>>) {
-    println!("test_despawn");
     if let Ok(tournament_menu_entity) = tournament_menu_query.get_single() {
         commands.entity(tournament_menu_entity).despawn_recursive();
     }
