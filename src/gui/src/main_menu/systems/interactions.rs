@@ -5,6 +5,8 @@ use crate::main_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSE
 use crate::main_menu::components::*;
 use crate::AppState;
 
+use tournament_engine::Tournament;
+
 pub fn interact_with_quit_button(
     mut app_exit_event_writer: EventWriter<AppExit>,
     mut button_query: Query<
@@ -36,6 +38,7 @@ pub fn interact_with_quit_button(
 }
 
 pub fn interact_with_start_tournament_button(
+    mut tournament: ResMut<Tournament>,
     mut button_query: Query<
         (
             &Interaction,
@@ -51,7 +54,11 @@ pub fn interact_with_start_tournament_button(
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                
+
+                println!("🎯 Create Tournament clicked!");
+                // Now you can set the tournament name for example
+                tournament.set_tournament_name("My Epic Tournament".to_string()).unwrap();
+
                 app_state_next_state.set(AppState::TournamentMenu);
             }
             Interaction::Hovered => {

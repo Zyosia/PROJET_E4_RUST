@@ -3,8 +3,10 @@ use bevy::prelude::*;
 use crate::tournament_menu::components::*;
 use crate::tournament_menu::styles::*;
 
-pub fn spawn_tournament_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
-    build_tournament_menu(&mut commands, &asset_server);
+use tournament_engine::Tournament;
+
+pub fn spawn_tournament_menu(mut commands: Commands, asset_server: Res<AssetServer>, tournament: Res<Tournament>) {
+    build_tournament_menu(&mut commands, &asset_server, &tournament.get_name());
 }
 
 pub fn despawn_tournament_menu(mut commands: Commands, tournament_menu_query: Query<Entity, With<TournamentMenu>>) {
@@ -14,7 +16,7 @@ pub fn despawn_tournament_menu(mut commands: Commands, tournament_menu_query: Qu
     }
 }
 
-pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetServer>) -> Entity {
+pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetServer>, tournament_name: &String) -> Entity {
     let tournament_menu_entity = commands
     .spawn((
         TournamentMenu {},
@@ -154,10 +156,10 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                     top: Val::Percent(5.0), 
                     ..default()
                 },
-                Text::new("Tournois :"),
+                Text::new(format!("Tournois : {}", tournament_name)),
                 TextFont {
                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    font_size: 90.0,
+                    font_size: 70.0,
                     ..default()
                 },
                 // Because this is a distinct label widget and

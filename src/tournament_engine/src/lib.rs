@@ -261,4 +261,16 @@ impl Tournament {
         println!("✅ {} saved", self.tournament_name);
         Ok(())
     }
+
+    /// Resets the tournament to its initial state.
+    pub fn reset(&mut self) {
+        self.state = TournamentState::Waiting;
+        self.tournament_name.clear();
+        self.participants.clear();
+        self.ai_functions.clear();
+        self.scores.clear();
+        self.nombre_parties = 10;
+        println!("🔄 Tournoi réinitialisé !");
+    }
+    
 }
