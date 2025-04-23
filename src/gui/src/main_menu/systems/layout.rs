@@ -30,7 +30,7 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
             // Bouton "Insérez une IA"
             parent
                 .spawn((
-                    AiInsertMenuButton {},
+                    CreateTournamentButton {},
                     Button,
                     Node {
                         width: Val::Px(400.0),
@@ -49,36 +49,7 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                     BackgroundColor(NORMAL_BUTTON_COLOR),
                 ))
                 .with_child((
-                    Text::new("Insérez une IA"),
-                    TextFont {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                        font_size: 33.0,
-                        ..default()
-                    },
-                    TextColor(Color::srgb(0.9, 0.9, 0.9)),
-                ));
-            parent
-                .spawn((
-                    WatchMatchMenuButton {},
-                    Button,
-                    Node {
-                        width: Val::Px(400.0),
-                        height: Val::Px(100.0),
-                        border: UiRect::all(Val::Px(5.0)),
-                        // horizontally center child text
-                        justify_content: JustifyContent::Center,
-                        // vertically center child text
-                        align_items: AlignItems::Center,
-                        position_type: PositionType::Absolute,
-                        top: Val::Percent(60.0),
-                        ..default()
-                    },
-                    BorderColor(Color::BLACK),
-                    BorderRadius::MAX,
-                    BackgroundColor(NORMAL_BUTTON_COLOR),
-                ))
-                .with_child((
-                    Text::new("Voir les matchs"),
+                    Text::new("Créer un tournoi"),
                     TextFont {
                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                         font_size: 33.0,

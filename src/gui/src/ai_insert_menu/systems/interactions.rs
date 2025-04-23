@@ -59,7 +59,7 @@ pub fn interact_with_return_main_menu_button(
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                app_state_next_state.set(AppState::MainMenu);
+                app_state_next_state.set(AppState::TournamentMenu);
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

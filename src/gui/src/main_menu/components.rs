@@ -4,10 +4,7 @@ use bevy::prelude::Component;
 pub struct MainMenu {}
 
 #[derive(Component)]
-pub struct WatchMatchMenuButton {}
-
-#[derive(Component)]
-pub struct AiInsertMenuButton {}
+pub struct CreateTournamentButton {}
 
 #[derive(Component)]
 pub struct QuitButton {}

@@ -35,14 +35,14 @@ pub fn interact_with_quit_button(
     }
 }
 
-pub fn interact_with_ai_insert_menu_button(
+pub fn interact_with_start_tournament_button(
     mut button_query: Query<
         (
             &Interaction,
             &mut BackgroundColor,
             &mut BorderColor,
         ),
-        (Changed<Interaction>, With<AiInsertMenuButton>)
+        (Changed<Interaction>, With<CreateTournamentButton>)
     >,
     mut app_state_next_state: ResMut<NextState<AppState>>,
 ) {
@@ -52,7 +52,7 @@ pub fn interact_with_ai_insert_menu_button(
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
                 
-                app_state_next_state.set(AppState::AiInsertMenu);
+                app_state_next_state.set(AppState::TournamentMenu);
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

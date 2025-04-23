@@ -20,7 +20,7 @@ impl Plugin for MainMenuPlugin {
             // Systems
             .add_systems(
                 Update,
-                (interact_with_quit_button, interact_with_ai_insert_menu_button))
+                (interact_with_quit_button, interact_with_start_tournament_button))
             // OnExit State Systems
             .add_systems(OnExit(AppState::MainMenu), despawn_main_menu);
     }
