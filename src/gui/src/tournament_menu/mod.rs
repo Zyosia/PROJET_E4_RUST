@@ -19,7 +19,16 @@ impl Plugin for TournamentMenuPlugin {
             // Systems
             .add_systems(
                 Update,
-                (interact_with_end_tournament_button, interact_with_ai_insert_menu_button, interact_with_start_tournament_button)
+                (
+                    start_participant_scroll_drag, 
+                    update_participant_scroll_drag,
+                    cancel_scroll_drag_on_cursor_leave,
+                    scroll_participant_list, 
+                    update_scroll_bar, 
+                    interact_with_end_tournament_button, 
+                    interact_with_ai_insert_menu_button, 
+                    interact_with_start_tournament_button
+                )
                     .run_if(in_state(AppState::TournamentMenu)),
             )
             // OnExit State Systems

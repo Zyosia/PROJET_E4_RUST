@@ -14,3 +14,12 @@ pub struct StartTournamentButton {}
 
 #[derive(Component)]
 pub struct EndTournamentButton {}
+
+#[derive(Component)]
+pub struct ParticipantScrollArea;
+
+#[derive(Component)]
+pub struct ParticipantScrollBar;
+
+#[derive(Component)]
+pub struct ParticipantScrollBarHandle;

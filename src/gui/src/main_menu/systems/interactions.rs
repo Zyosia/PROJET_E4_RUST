@@ -58,6 +58,7 @@ pub fn interact_with_start_tournament_button(
                 println!("🎯 Create Tournament clicked!");
                 // Now you can set the tournament name for example
                 tournament.set_tournament_name("My Epic Tournament".to_string()).unwrap();
+                tournament.add_all_ai().unwrap();
 
                 app_state_next_state.set(AppState::TournamentMenu);
             }

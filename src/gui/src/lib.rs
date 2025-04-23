@@ -24,6 +24,7 @@ pub fn run_graphics() {
         // Only run the app when there is user input. This will significantly reduce CPU/GPU use.
         .insert_resource(WinitSettings::desktop_app())
         .insert_resource(Tournament::new())
+        .insert_resource(ScrollDragState::default())
         .add_systems(Startup, (setup, focus_window))
         // My Plugins
         .add_plugins((MainMenuPlugin, TournamentMenuPlugin, AiInsertMenuPlugin))
@@ -70,4 +71,11 @@ pub enum AppState {
     TournamentMenu,
     AiInsertMenu,
     WatchMatchMenu,
+}
+
+#[derive(Resource, Default)]
+pub struct ScrollDragState {
+    pub dragging: bool,
+    pub start_cursor_y: f32,
+    pub start_scroll_y: f32,
 }

@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-bevy = { version = "0.15.3", features = ["bevy_winit", "bevy_render"] }
+bevy = { version = "0.15.3", features = ["bevy_winit", "bevy_render", "bevy_ui"] }
 accesskit = "0.17.1"
 bevy_a11y = "0.15.3"
 rfd = "0.15.3"

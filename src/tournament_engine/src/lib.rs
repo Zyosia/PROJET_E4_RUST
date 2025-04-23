@@ -46,6 +46,16 @@ impl Tournament {
         self.tournament_name.clone()
     }
 
+    /// Returns the list of participants in the tournament.
+    pub fn get_participants(&self) -> Vec<String> {
+        self.participants.clone()
+    }
+
+    /// Returns the scores of all participants.
+    pub fn get_scores(&self) -> HashMap<String, usize> {
+        self.scores.clone()
+    }
+
     /// Set the tournament name
     /// # Arguments
     /// - `name` - The name of the tournament.
