@@ -110,7 +110,7 @@ fn write_ai() -> std::io::Result<String> {
 /// - `Some((Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String))`
 ///   if the AI function is successfully loaded.
 /// - `None` if the library could not be loaded.
-fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String)> {
+fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>, String)> {
 
     println!("🤖 Chargement de l'IA depuis {:?}", ai_file);
 
@@ -141,7 +141,7 @@ fn load_ai_function(ai_file: PathBuf) -> Option<(Arc<Library>, Box<dyn Fn(&Board
 /// - `Some(Vec<Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String)>>)`
 ///   containing all loaded AI functions.
 /// - `None` if no AI functions are found or loading fails.
-pub fn load_ai_functions() -> Option<Vec<Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>, String)>>> {
+pub fn load_ai_functions() -> Option<Vec<Option<(Arc<Library>, Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>, String)>>> {
     let ai_folder = "src/ai_folder/";
     let mut ai_functions_data = Vec::new();
 

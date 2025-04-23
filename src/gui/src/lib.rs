@@ -10,8 +10,9 @@ use ai_insert_menu::AiInsertMenuPlugin;
 use bevy::{prelude::*, winit::WinitSettings};
 use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
-
 use systems::*;
+
+use tournament_engine::Tournament;
 
 pub fn run_graphics() {
     App::new()
@@ -20,6 +21,7 @@ pub fn run_graphics() {
         .init_state::<AppState>()
         // Only run the app when there is user input. This will significantly reduce CPU/GPU use.
         .insert_resource(WinitSettings::desktop_app())
+        .insert_resource(Tournament::new())
         .add_systems(Startup, (setup, focus_window))
         // My Plugins
         .add_plugins((MainMenuPlugin, TournamentMenuPlugin, AiInsertMenuPlugin))

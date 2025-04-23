@@ -8,3 +8,4 @@ libloading = "0.8"
 board = { path = "../board" }
 ai_manager = { path = "../ai_manager" }
 game_engine = { path= "../game_engine" }
+bevy = "0.15.3"

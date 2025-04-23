@@ -10,4 +10,7 @@ pub struct WatchMatchMenuButton {}
 pub struct AiInsertMenuButton {}
 
 #[derive(Component)]
+pub struct StartTournamentButton {}
+
+#[derive(Component)]
 pub struct EndTournamentButton {}

@@ -14,8 +14,8 @@ pub struct Game {
     history: History,
     ai_name1: String,
     ai_name2: String,
-    ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
-    ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
+    ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>>,
+    ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>>,
     lib_ai1: Option<Arc<Library>>,
     lib_ai2: Option<Arc<Library>>,
 }
@@ -36,8 +36,8 @@ impl Game {
     pub fn new(
         ai_name1: String,
         ai_name2: String,
-        ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
-        ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>>,
+        ai_function1: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>>,
+        ai_function2: Option<Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>>,
         lib_ai1: Option<Arc<Library>>,
         lib_ai2: Option<Arc<Library>>
     ) -> Self {

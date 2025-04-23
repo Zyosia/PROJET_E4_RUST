@@ -4758,6 +4758,7 @@ name = "tournament_engine"
 version = "0.1.0"
 dependencies = [
  "ai_manager",
+ "bevy",
  "board",
  "game_engine",
  "libloading",

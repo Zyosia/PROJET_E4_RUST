@@ -4,6 +4,7 @@ use board::Board;
 use game_engine::Game;
 use ai_manager::{load_ai_functions, compile_all_ai, create_new_ai};
 
+use bevy::prelude::Resource;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum TournamentState {
@@ -11,11 +12,12 @@ pub enum TournamentState {
     Started,
 }
 
+#[derive(Resource)]
 pub struct Tournament {
     tournament_name: String,
     state: TournamentState,
     participants: Vec<String>,  // Names of AI participants
-    ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>>)>,
+    ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>)>,
     scores: HashMap<String, usize>,
     nombre_parties: i32,
 }
@@ -91,7 +93,7 @@ impl Tournament {
         &mut self, 
         ai_name: String, 
         lib: Arc<Library>,
-        ai_function: Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))>>
+        ai_function: Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>
     ){
         self.ai_functions.insert(ai_name.clone(), (lib, Arc::new(ai_function)));
         self.participants.push(ai_name);
