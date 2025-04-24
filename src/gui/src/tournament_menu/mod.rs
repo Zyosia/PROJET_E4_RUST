@@ -26,7 +26,9 @@ impl Plugin for TournamentMenuPlugin {
                     scroll_participant_list, 
                     update_scroll_bar, 
                     interact_with_end_tournament_button, 
-                    interact_with_ai_insert_menu_button, 
+                    interact_with_ai_insert_menu_button,
+                    interact_with_watch_results_button,
+                    interact_with_change_number_of_game_button,
                     interact_with_start_tournament_button
                 )
                     .run_if(in_state(AppState::TournamentMenu)),

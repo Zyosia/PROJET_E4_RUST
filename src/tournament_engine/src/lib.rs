@@ -41,6 +41,14 @@ impl Tournament {
         self.state.clone()
     }
 
+    pub fn get_state_to_string(&self) -> String {
+        if self.state == TournamentState::Waiting {
+            return "En Attente".to_string().clone();
+        }else{
+            return "Démarré".to_string().clone();
+        }
+    }
+
     /// Returns the tournament name
     pub fn get_name(&self) -> String {
         self.tournament_name.clone()
@@ -51,10 +59,29 @@ impl Tournament {
         self.participants.clone()
     }
 
-    /// Returns the scores of all participants.
-    pub fn get_scores(&self) -> HashMap<String, usize> {
+    /// Returns the total number of games that will be played in the tournament.
+    pub fn get_total_number_of_games(&self) -> usize {
+        let n = self.participants.len();
+        let k = self.nombre_parties;
+        n * (n - 1) / 2 * k as usize
+    }
+
+    /// Returns the score for a specific AI participant.
+    /// # Arguments
+    /// - `name`: The name of the AI.
+    /// # Returns
+    /// - `Some(score)` if the AI exists, otherwise `None`.
+    pub fn get_score_for_ai(&self, name: &str) -> Option<usize> {
+        self.scores.get(name).copied()
+    }
+
+    /// Returns all the scores for every AI participant.
+    /// # Returns
+    /// - A clone of the internal scores HashMap.
+    pub fn get_all_scores(&self) -> HashMap<String, usize> {
         self.scores.clone()
     }
+
 
     /// Set the tournament name
     /// # Arguments

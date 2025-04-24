@@ -9,6 +9,7 @@ use crate::AppState;
 use crate::ScrollDragState;
 
 use tournament_engine::Tournament;
+use tournament_engine::TournamentState;
 
 pub fn interact_with_end_tournament_button(
     mut app_state_next_state: ResMut<NextState<AppState>>,
@@ -44,6 +45,41 @@ pub fn interact_with_end_tournament_button(
     }
 }
 
+pub fn interact_with_change_number_of_game_button(
+    mut button_query: Query<
+    (
+        &Interaction,
+        &mut BackgroundColor,
+        &mut BorderColor,
+    ),
+    (Changed<Interaction>, With<ChangeNumberOfGameButton>)
+    >,
+    mut tournament: ResMut<Tournament>,
+    mut app_state_next_state: ResMut<NextState<AppState>>,
+    //mut app_state_next_state: ResMut<NextState<AppState>>,
+    ) {
+    if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
+        match *interaction {
+            Interaction::Pressed => {
+                *color = PRESSED_BUTTON_COLOR.into();
+                border_color.0 = RED.into();
+                if tournament.get_state() == TournamentState::Waiting{
+                    tournament.set_number_of_games(10).unwrap();
+                } 
+
+            }
+            Interaction::Hovered => {
+                *color = HOVERED_BUTTON_COLOR.into();
+                border_color.0 = Color::WHITE;
+            }
+            Interaction::None => {
+                *color = NORMAL_BUTTON_COLOR.into();
+                border_color.0 = Color::BLACK;
+            }
+        }
+    }
+}
+
 pub fn interact_with_start_tournament_button(
     mut button_query: Query<
         (
@@ -54,6 +90,7 @@ pub fn interact_with_start_tournament_button(
         (Changed<Interaction>, With<StartTournamentButton>)
     >,
     mut tournament: ResMut<Tournament>,
+    mut app_state_next_state: ResMut<NextState<AppState>>,
     //mut app_state_next_state: ResMut<NextState<AppState>>,
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
@@ -61,10 +98,47 @@ pub fn interact_with_start_tournament_button(
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                
-                tournament.start().unwrap();
+                if tournament.get_state() == TournamentState::Waiting{
+                    tournament.start().unwrap();
+                    tournament.run().unwrap();
+                    app_state_next_state.set(AppState::TournamentResultMenu);
+                } 
 
-                //app_state_next_state.set(AppState::AiInsertMenu);
+            }
+            Interaction::Hovered => {
+                *color = HOVERED_BUTTON_COLOR.into();
+                border_color.0 = Color::WHITE;
+            }
+            Interaction::None => {
+                *color = NORMAL_BUTTON_COLOR.into();
+                border_color.0 = Color::BLACK;
+            }
+        }
+    }
+}
+
+pub fn interact_with_watch_results_button(
+    mut button_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &mut BorderColor,
+        ),
+        (Changed<Interaction>, With<WatchResultsMenuButton>)
+    >,
+    tournament: Res<Tournament>,
+    mut app_state_next_state: ResMut<NextState<AppState>>,
+) {
+    if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
+        match *interaction {
+            Interaction::Pressed => {
+                *color = PRESSED_BUTTON_COLOR.into();
+                border_color.0 = RED.into();
+                
+                if tournament.get_state() == TournamentState::Started{
+                    app_state_next_state.set(AppState::TournamentResultMenu);
+                }
+
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

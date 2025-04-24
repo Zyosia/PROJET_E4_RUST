@@ -2588,6 +2588,7 @@ dependencies = [
  "bevy_a11y",
  "board",
  "game_engine",
+ "game_history",
  "rfd",
  "tournament_engine",
  "winit",

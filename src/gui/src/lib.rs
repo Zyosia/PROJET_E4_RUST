@@ -1,10 +1,13 @@
 mod main_menu;
 mod tournament_menu;
+mod tournament_result_menu;
 mod ai_insert_menu;
 mod systems;
+mod gui_helper_functions;
 
 use main_menu::MainMenuPlugin;
 use tournament_menu::TournamentMenuPlugin;
+use tournament_result_menu::TournamentResultMenuPlugin;
 use ai_insert_menu::AiInsertMenuPlugin;
 
 use bevy::{prelude::*, winit::WinitSettings};
@@ -27,7 +30,7 @@ pub fn run_graphics() {
         .insert_resource(ScrollDragState::default())
         .add_systems(Startup, (setup, focus_window))
         // My Plugins
-        .add_plugins((MainMenuPlugin, TournamentMenuPlugin, AiInsertMenuPlugin))
+        .add_plugins((MainMenuPlugin, TournamentMenuPlugin, TournamentResultMenuPlugin, AiInsertMenuPlugin))
         .add_systems(
             Update,
             (
@@ -69,6 +72,7 @@ pub enum AppState {
     #[default]
     MainMenu,
     TournamentMenu,
+    TournamentResultMenu,
     AiInsertMenu,
     WatchMatchMenu,
 }

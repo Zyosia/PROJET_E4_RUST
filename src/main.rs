@@ -6,7 +6,11 @@ fn main(){
     loop {
         match menu() {
             1 => run_terminal_ui(),
-            2 => run_graphics(),
+            2 => {
+                run_graphics();
+                println!("👋 Fermeture... 🚪");
+                break;
+            }
             3 => {
                 println!("👋 Fermeture... 🚪");
                 break;

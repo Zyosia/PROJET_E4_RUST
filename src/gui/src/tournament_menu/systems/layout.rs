@@ -2,6 +2,7 @@ use bevy::prelude::*;
 
 use crate::tournament_menu::components::*;
 use crate::tournament_menu::styles::*;
+use crate::gui_helper_functions::text_helper::*;
 
 use tournament_engine::Tournament;
 
@@ -18,6 +19,14 @@ pub fn despawn_tournament_menu(mut commands: Commands, tournament_menu_query: Qu
 pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetServer>, tournament: &Tournament) -> Entity {
     let participants = tournament.get_participants();
     let tournament_name = tournament.get_name();
+
+    // Define min and max font sizes
+    let max_font_size = 70.0;
+    let min_font_size = 24.0;
+    let name_length = tournament_name.len() as f32;
+    // Dynamically calculate font size based on name length
+    let title_font_size = (max_font_size - name_length).clamp(min_font_size, max_font_size);
+
     println!("Participants: {:?}", participants); // <- Check if this prints anything
 
     let tournament_menu_entity = commands
@@ -42,7 +51,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
             Text::new(format!("Tournoi : {}", tournament_name)),
             TextFont {
                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                font_size: 70.0,
+                font_size: title_font_size,
                 ..default()
             },
             Label,
@@ -57,12 +66,15 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
             align_items: AlignItems::FlexStart,
             ..default()
         }).with_children(|row| {
-            // Left: Insert AI
             row.spawn(Node {
+                flex_direction: FlexDirection::Column,
+                justify_content: JustifyContent::SpaceEvenly,
+                align_items: AlignItems::FlexStart,
                 margin: UiRect::all(Val::Px(20.0)),
                 ..default()
             })
             .with_children(|left| {
+                // Left: Insert AI
                 left.spawn((
                     AiInsertMenuButton {},
                     Button,
@@ -88,6 +100,33 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                     },
                     TextColor(Color::srgb(0.9, 0.9, 0.9)),
                 ));
+
+                // "Changer le nombre de parties" button
+                left.spawn((
+                    ChangeNumberOfGameButton {},
+                    Button,
+                    Node {
+                        width: Val::Px(300.0),
+                        height: Val::Px(100.0),
+                        margin: UiRect::all(Val::Px(10.0)),
+                        border: UiRect::all(Val::Px(5.0)),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        ..default()
+                    },
+                    BorderColor(Color::BLACK),
+                    BorderRadius::MAX,
+                    BackgroundColor(NORMAL_BUTTON_COLOR),
+                ))
+                .with_child((
+                    Text::new("Changer le \n nombre de parties"),
+                    TextFont {
+                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font_size: 24.0,
+                        ..default()
+                    },
+                    TextColor(Color::srgb(0.9, 0.9, 0.9)),
+                ));
             });
 
             // Center: Participant list container (scroll area)
@@ -107,9 +146,13 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         flex_direction: FlexDirection::Column,
                         align_items: AlignItems::Center,
                         position_type: PositionType::Relative,
+                        margin: UiRect::all(Val::Px(10.0)),
+                        border: UiRect::all(Val::Px(5.0)),
                         top: Val::Px(0.0),
                         ..default()
                     },
+                    BorderColor(Color::BLACK),
+                    BackgroundColor(Color::srgb(0.2, 0.2, 0.2)),
                     Transform::default(),
                     GlobalTransform::default(),
                 ))
@@ -148,7 +191,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         position_type: PositionType::Relative, // Absolute positioning for the scrollbar
                         ..default()
                     },
-                    BackgroundColor(Color::srgb(0.2, 0.2, 0.2).into()),
+                    BackgroundColor(Color::srgb(0.3, 0.3, 0.3)),
                 ))
                 .with_children(|bar| {
                     bar.spawn((
@@ -166,7 +209,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
             });                        
 
 
-            // Right: Watch and Start buttons
+            // Right: Info, Result and Start buttons
             row.spawn(Node {
                 margin: UiRect::all(Val::Px(20.0)),
                 flex_direction: FlexDirection::Column,
@@ -174,9 +217,50 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                 ..default()
             })
             .with_children(|right| {
-                // "Voir les matchs" button
+
+                // Tournament Info Box
                 right.spawn((
-                    WatchMatchMenuButton {},
+                    Node {
+                        width: Val::Auto,
+                        min_width: Val::Px(300.0),
+                        max_width: Val::Percent(90.0),
+                        height: Val::Auto,
+                        margin: UiRect::all(Val::Px(10.0)),
+                        padding: UiRect::all(Val::Px(15.0)),
+                        border: UiRect::all(Val::Px(5.0)),
+                        justify_content: JustifyContent::FlexStart,
+                        align_items: AlignItems::FlexStart,
+                        flex_direction: FlexDirection::Column,
+                        ..default()
+                    },
+                    BorderColor(Color::BLACK),
+                    BorderRadius::MAX,
+                    BackgroundColor(Color::srgb(0.15, 0.15, 0.15)),
+                ))
+                .with_children(|info_box| {
+                    let bold_font = asset_server.load("fonts/FiraSans-Bold.ttf");
+
+                    spawn_centered_info_text(info_box, "Infos Tournoi", bold_font.clone(), 28.0, Color::srgb(1.0, 0.85, 0.4));
+
+                    spawn_centered_info_text(
+                        info_box,
+                        &format!("Parties par match : {}", tournament.get_number_of_games()), // Assuming you have this method
+                        bold_font.clone(),
+                        22.0,
+                        Color::WHITE,
+                    );
+                    spawn_centered_info_text(
+                        info_box,
+                        &format!("Statut : {}", tournament.get_state_to_string()), // Assuming you have this too
+                        bold_font.clone(),
+                        22.0,
+                        Color::WHITE,
+                    );
+                });
+
+                // "Voir Résultats" button
+                right.spawn((
+                    WatchResultsMenuButton {},
                     Button,
                     Node {
                         width: Val::Px(300.0),
@@ -192,7 +276,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                     BackgroundColor(NORMAL_BUTTON_COLOR),
                 ))
                 .with_child((
-                    Text::new("Voir les matchs"),
+                    Text::new("Voir Résultats"),
                     TextFont {
                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                         font_size: 28.0,
@@ -227,6 +311,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                     },
                     TextColor(Color::srgb(0.9, 0.9, 0.9)),
                 ));
+
             });
         });
 
