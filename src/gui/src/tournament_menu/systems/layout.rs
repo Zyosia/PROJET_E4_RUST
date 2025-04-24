@@ -16,7 +16,7 @@ pub fn despawn_tournament_menu(mut commands: Commands, tournament_menu_query: Qu
 }
 
 pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetServer>, tournament: &Tournament) -> Entity {
-    let participants = ["AI1","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2","AI2"]; //tournament.get_participants();
+    let participants = tournament.get_participants();
     let tournament_name = tournament.get_name();
     println!("Participants: {:?}", participants); // <- Check if this prints anything
 
