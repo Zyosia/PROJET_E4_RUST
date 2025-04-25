@@ -28,6 +28,7 @@ pub fn run_graphics() {
         .insert_resource(WinitSettings::desktop_app())
         .insert_resource(Tournament::new())
         .insert_resource(ScrollDragState::default())
+        .insert_resource(IsPopup::default())
         .add_systems(Startup, (setup, focus_window))
         // My Plugins
         .add_plugins((MainMenuPlugin, TournamentMenuPlugin, TournamentResultMenuPlugin, AiInsertMenuPlugin))
@@ -83,3 +84,7 @@ pub struct ScrollDragState {
     pub start_cursor_y: f32,
     pub start_scroll_y: f32,
 }
+
+/// Detect wether there is a popup or not on the window
+#[derive(Resource, Default)]
+pub struct IsPopup(pub bool);

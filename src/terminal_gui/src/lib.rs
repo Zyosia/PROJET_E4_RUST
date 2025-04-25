@@ -248,7 +248,7 @@ fn list_available_games() -> io::Result<Vec<String>> {
 
 /// Deletes all the game history files (with a `.txt` extension) in the game history directory.
 /// Returns an `io::Result` indicating success or failure.
-fn delete_all_history_files() -> io::Result<()> {
+pub fn delete_all_history_files() -> io::Result<()> {
     let path = "src/games_history";
 
     // Read the directory contents

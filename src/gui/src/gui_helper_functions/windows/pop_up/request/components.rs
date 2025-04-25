@@ -1,13 +1,13 @@
 use bevy::prelude::Component;
 
 #[derive(Component)]
-pub struct NumberOfGamesPopup;
+pub struct RequestPopup;
 
 #[derive(Component)]
 pub struct NumberOfGamesInputField;
 
 #[derive(Component)]
-pub struct ConfirmNumberOfGamesButton;
+pub struct ConfirmRequestPopupButton;
 
 #[derive(Component)]
-pub struct CancelNumberOfGamesButton;
+pub struct CancelRequestPopupButton;
