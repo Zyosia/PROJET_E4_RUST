@@ -3,6 +3,8 @@ mod styles;
 mod systems;
 
 use systems::interactions::*;
+use crate::gui_helper_functions::windows::pop_up::request::interactions::*;
+
 use systems::layout::*;
 
 use bevy::prelude::*;
@@ -20,7 +22,15 @@ impl Plugin for MainMenuPlugin {
             // Systems
             .add_systems(
                 Update,
-                (interact_with_quit_button, interact_with_start_tournament_button))
+                (
+                    interact_with_quit_button, 
+                    interact_with_start_tournament_button,
+
+                    //popup_interactions
+                    interact_with_cancel_request_pop_up_button,
+                    interact_with_confirm_request_pop_up_button,
+                )
+            )
             // OnExit State Systems
             .add_systems(OnExit(AppState::MainMenu), despawn_main_menu);
     }

@@ -1,11 +1,13 @@
 use bevy::prelude::*;
 use bevy::color::palettes::basic::*;
+use bevy::window::PrimaryWindow;
 
 use crate::main_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR};
 use crate::main_menu::components::*;
-use crate::AppState;
+use crate::IsPopup;
 
-use tournament_engine::Tournament;
+use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
+use crate::gui_helper_functions::windows::pop_up::request::components::PopupPurpose;
 
 pub fn interact_with_quit_button(
     mut app_exit_event_writer: EventWriter<AppExit>,
@@ -38,7 +40,9 @@ pub fn interact_with_quit_button(
 }
 
 pub fn interact_with_start_tournament_button(
-    mut tournament: ResMut<Tournament>,
+    mut is_popup: ResMut<IsPopup>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
     mut button_query: Query<
         (
             &Interaction,
@@ -47,7 +51,7 @@ pub fn interact_with_start_tournament_button(
         ),
         (Changed<Interaction>, With<CreateTournamentButton>)
     >,
-    mut app_state_next_state: ResMut<NextState<AppState>>,
+    windows: Query<&Window, With<PrimaryWindow>>,
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
         match *interaction {
@@ -55,12 +59,13 @@ pub fn interact_with_start_tournament_button(
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
 
-                println!("🎯 Create Tournament clicked!");
-                // Now you can set the tournament name for example
-                tournament.set_tournament_name("My Epic Tournament".to_string()).unwrap();
-                tournament.add_all_ai().unwrap();
+                //set the tournament name
+                if is_popup.0 == false {
+                    println!("🎯 Create Tournament clicked!");
+                    is_popup.0 = true;
+                    spawn_request_popup("Entrez le nom de votre tournois:", &mut commands, &asset_server,  windows, PopupPurpose::SetTournamentName);
+                }
 
-                app_state_next_state.set(AppState::TournamentMenu);
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

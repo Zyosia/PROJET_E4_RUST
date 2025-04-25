@@ -26,3 +26,6 @@ pub struct ParticipantScrollBar;
 
 #[derive(Component)]
 pub struct ParticipantScrollBarHandle;
+
+#[derive(Component)]
+pub struct NumberOfGamesText;

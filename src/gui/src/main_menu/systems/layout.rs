@@ -3,6 +3,8 @@ use bevy::prelude::*;
 use crate::main_menu::components::*;
 use crate::main_menu::styles::*;
 
+const Z_LAYER_UI: f32 = 10.0;
+
 pub fn spawn_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
     build_main_menu(&mut commands, &asset_server);
 }
@@ -23,7 +25,8 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::Center,
                 ..default()
-            }
+            },
+            Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
         ))
         .with_children(|parent| {
             // Bouton "Insérez une IA"
@@ -43,6 +46,7 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                         top: Val::Percent(35.0),
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),
@@ -72,6 +76,7 @@ pub fn build_main_menu(commands: &mut Commands, asset_server: &Res<AssetServer>)
                         top: Val::Percent(85.0),
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),

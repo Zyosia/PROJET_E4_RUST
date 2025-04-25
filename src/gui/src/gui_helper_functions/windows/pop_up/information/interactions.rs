@@ -16,6 +16,7 @@ pub fn interact_with_ok_information_pop_up_button(
         (Changed<Interaction>, With<OkInformationButton>)
     >,
     popup_query: Query<Entity, With<InformationPopup>>,
+    overlay_query: Query<Entity, With<InformationPopupOverlay>>,
 ) {
     if let Ok((interaction, mut color, mut border_color, _button_entity)) = button_query.get_single_mut() {
         match *interaction {
@@ -26,6 +27,10 @@ pub fn interact_with_ok_information_pop_up_button(
                 if let Ok(popup_entity) = popup_query.get_single() {
                     commands.entity(popup_entity).despawn_recursive();
                 }
+                if let Ok(overlay_entity) = overlay_query.get_single() {
+                    commands.entity(overlay_entity).despawn_recursive();
+                }
+
                 is_popup.0 = false;
             }
             Interaction::Hovered => {

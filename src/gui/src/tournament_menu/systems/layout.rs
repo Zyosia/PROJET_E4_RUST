@@ -6,6 +6,8 @@ use crate::gui_helper_functions::text_helper::*;
 
 use tournament_engine::Tournament;
 
+const Z_LAYER_UI: f32 = 10.0;
+
 pub fn spawn_tournament_menu(mut commands: Commands, asset_server: Res<AssetServer>, tournament: Res<Tournament>) {
     build_tournament_menu(&mut commands, &asset_server, &tournament);
 }
@@ -40,6 +42,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
             justify_content: JustifyContent::SpaceBetween,
             ..default()
         },
+        Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
     ))
     .with_children(|parent| {
         // Tournament name
@@ -54,6 +57,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                 font_size: title_font_size,
                 ..default()
             },
+            Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
             Label,
         ));
 
@@ -87,6 +91,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         align_items: AlignItems::Center,
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),
@@ -114,6 +119,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         align_items: AlignItems::Center,
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),
@@ -233,6 +239,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         flex_direction: FlexDirection::Column,
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(Color::srgb(0.15, 0.15, 0.15)),
@@ -242,13 +249,25 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
 
                     spawn_centered_info_text(info_box, "Infos Tournoi", bold_font.clone(), 28.0, Color::srgb(1.0, 0.85, 0.4));
 
-                    spawn_centered_info_text(
-                        info_box,
-                        &format!("Parties par match : {}", tournament.get_number_of_games()), // Assuming you have this method
-                        bold_font.clone(),
-                        22.0,
-                        Color::WHITE,
-                    );
+                    info_box.spawn(Node {
+                        width: Val::Percent(100.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        ..default()
+                    })
+                    .with_children(|node| {
+                        node.spawn((
+                            Text::new(format!("Parties par match : {}", tournament.get_number_of_games())),
+                            TextFont {
+                                font: bold_font.clone(),
+                                font_size: 22.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                            NumberOfGamesText,
+                        ));
+                    });
+
                     spawn_centered_info_text(
                         info_box,
                         &format!("Statut : {}", tournament.get_state_to_string()), // Assuming you have this too
@@ -271,6 +290,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         align_items: AlignItems::Center,
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),
@@ -298,6 +318,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                         align_items: AlignItems::Center,
                         ..default()
                     },
+                    Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                     BorderColor(Color::BLACK),
                     BorderRadius::MAX,
                     BackgroundColor(NORMAL_BUTTON_COLOR),
@@ -316,10 +337,13 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
         });
 
         // Bottom: End tournament button
-        parent.spawn(Node {
-            margin: UiRect::bottom(Val::Px(20.0)),
-            ..default()
-        })
+        parent.spawn((
+            Node {
+                margin: UiRect::bottom(Val::Px(20.0)),
+                ..default()
+            },
+            Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
+        ))
         .with_children(|bottom| {
             bottom.spawn((
                 EndTournamentButton {},
@@ -332,6 +356,7 @@ pub fn build_tournament_menu(commands: &mut Commands, asset_server: &Res<AssetSe
                     align_items: AlignItems::Center,
                     ..default()
                 },
+                Transform::from_translation(Vec3::new(0.0, 0.0, Z_LAYER_UI)),
                 BorderColor(Color::BLACK),
                 BorderRadius::MAX,
                 BackgroundColor(NORMAL_BUTTON_COLOR),

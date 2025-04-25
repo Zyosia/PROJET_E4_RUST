@@ -15,6 +15,8 @@ use bevy::window::PrimaryWindow;
 use bevy::winit::WinitWindows;
 use winit::dpi::{PhysicalPosition, Position};
 
+use bevy_simple_text_input::TextInputPlugin;
+
 use systems::*;
 
 use tournament_engine::Tournament;
@@ -23,6 +25,7 @@ pub fn run_graphics() {
     App::new()
         // Bevy Plugins
         .add_plugins(DefaultPlugins)
+        .add_plugins(TextInputPlugin)
         .init_state::<AppState>()
         // Only run the app when there is user input. This will significantly reduce CPU/GPU use.
         .insert_resource(WinitSettings::desktop_app())
