@@ -16,4 +16,5 @@ pub struct RequestPopupOverlay;
 pub enum PopupPurpose {
     SetTournamentName,
     SetNumberOfGames,
+    SetAiName,
 }

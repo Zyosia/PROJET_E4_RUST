@@ -1,4 +1,4 @@
-use board::Board;
+use board::board::Board;
 use rand::seq::SliceRandom;
 use rand::Rng;
 

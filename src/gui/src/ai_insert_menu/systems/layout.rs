@@ -19,6 +19,7 @@ pub fn build_insert_ai_menu(commands: &mut Commands, asset_server: &Res<AssetSer
             Node {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
+                flex_direction: FlexDirection::Column,
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::Center,
                 ..default()
@@ -26,6 +27,21 @@ pub fn build_insert_ai_menu(commands: &mut Commands, asset_server: &Res<AssetSer
             AiInsertMenu {}
         ))
         .with_children(|parent| {
+
+            parent
+                .spawn((
+                    Node {
+                        position_type: PositionType::Absolute,
+                        top: Val::Percent(5.0), 
+                        ..default()
+                    },
+                    Text::new("Menu d'ajout d'IA"),
+                    TextFont {
+                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font_size: 90.0,
+                        ..default()
+                    },
+                ));
             // Bouton "Parcourir les fichiers locaux"
             parent
                 .spawn((
@@ -48,7 +64,7 @@ pub fn build_insert_ai_menu(commands: &mut Commands, asset_server: &Res<AssetSer
                     BackgroundColor(NORMAL_BUTTON_COLOR),
                 ))
                 .with_child((
-                    Text::new("Parcourir les fichiers locaux"),
+                    Text::new("Ajouter une nouvelle IA"),
                     TextFont {
                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                         font_size: 25.0,
@@ -56,25 +72,40 @@ pub fn build_insert_ai_menu(commands: &mut Commands, asset_server: &Res<AssetSer
                     },
                     TextColor(Color::srgb(0.9, 0.9, 0.9)),
                 ));
+            // Nom IA ajouté/Confirmation 
             parent
                 .spawn((
-                    PathAIText {},
+                    PathAIText,
                     Node {
                         position_type: PositionType::Absolute,
-                        top: Val::Percent(5.0), 
+                        top: Val::Percent(55.0),
+                        left: Val::Percent(25.0),
+                        width: Val::Percent(50.0),
+                        height: Val::Px(70.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
                         ..default()
                     },
-                    Text::new(""),
-                    TextFont {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                        font_size: 90.0,
-                        ..default()
-                    },
-                    // Because this is a distinct label widget and
-                    // not button/list item text, this is necessary
-                    // for accessibility to treat the text accordingly.
-                    Label,
-                ));
+                    BackgroundColor(NORMAL_BUTTON_COLOR),
+                    BorderRadius::MAX,
+                    BorderColor(Color::BLACK),
+                ))
+                .with_children(|parent| {
+                    parent.spawn((
+                        Node {
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            ..default()
+                        },
+                        Text::new("Path to your AI file"),
+                        TextFont {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 32.0,
+                            ..default()
+                        },
+                        TextColor(Color::WHITE),
+                    ));
+                });
             parent
                 .spawn((
                     ReturnMainMenuButton {},
@@ -103,24 +134,6 @@ pub fn build_insert_ai_menu(commands: &mut Commands, asset_server: &Res<AssetSer
                         ..default()
                     },
                     TextColor(Color::srgb(0.9, 0.9, 0.9)),
-                ));
-            parent
-                .spawn((
-                    Node {
-                        position_type: PositionType::Absolute,
-                        top: Val::Percent(5.0), 
-                        ..default()
-                    },
-                    Text::new("Ajouter une IA au tournoi"),
-                    TextFont {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                        font_size: 90.0,
-                        ..default()
-                    },
-                    // Because this is a distinct label widget and
-                    // not button/list item text, this is necessary
-                    // for accessibility to treat the text accordingly.
-                    Label,
                 ));
         })
         .id();

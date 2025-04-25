@@ -2376,6 +2376,9 @@ dependencies = [
 [[package]]
 name = "game_history"
 version = "0.1.0"
+dependencies = [
+ "board",
+]
 
 [[package]]
 name = "gethostname"
@@ -2593,6 +2596,7 @@ name = "gui"
 version = "0.1.0"
 dependencies = [
  "accesskit",
+ "ai_manager",
  "bevy",
  "bevy_a11y",
  "bevy_simple_text_input",
@@ -4563,7 +4567,7 @@ name = "terminal_gui"
 version = "0.1.0"
 dependencies = [
  "crossterm",
- "game_engine",
+ "game_history",
  "tournament_engine",
 ]
 

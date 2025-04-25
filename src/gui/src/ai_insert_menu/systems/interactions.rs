@@ -1,14 +1,20 @@
 use bevy::prelude::*;
 use bevy::color::palettes::basic::*;
-
+use bevy::window::PrimaryWindow;
 
 use crate::ai_insert_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR};
 use crate::ai_insert_menu::components::*;
 use crate::AppState;
+use crate::IsPopup;
 
-use rfd::FileDialog;
+use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
+use crate::gui_helper_functions::windows::pop_up::request::components::PopupPurpose;
 
 pub fn interact_with_browser_button(
+    mut is_popup: ResMut<IsPopup>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    windows: Query<&Window, With<PrimaryWindow>>,
     mut button_query: Query<
         (
             &Interaction,
@@ -17,19 +23,18 @@ pub fn interact_with_browser_button(
         ),
         (Changed<Interaction>, With<BrowserButton>)
     >,
-    //mut path_ai_text_query: Query<&mut Text, With<PathAIText>>
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
         match *interaction {
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                if let Some(path) = FileDialog::new().pick_file() {
-                    println!("Fichier sélectionné : {:?}", path);
-                    // if let Ok(mut text) = path_ai_text_query.get_single_mut() {
-                    //     text.sections[0].value = format!("{}", path.display());
-                    // }
+
+                if is_popup.0 == false {
+                    is_popup.0 = true;
+                    spawn_request_popup("Entrez le nom de votre IA:", &mut commands, &asset_server, windows, PopupPurpose::SetAiName);
                 }
+
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

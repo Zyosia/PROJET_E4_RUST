@@ -30,6 +30,7 @@ impl Plugin for MainMenuPlugin {
                     interact_with_cancel_request_pop_up_button,
                     interact_with_confirm_request_pop_up_button,
                 )
+                .run_if(in_state(AppState::MainMenu)),
             )
             // OnExit State Systems
             .add_systems(OnExit(AppState::MainMenu), despawn_main_menu);

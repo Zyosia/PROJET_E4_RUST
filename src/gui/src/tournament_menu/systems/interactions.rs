@@ -57,6 +57,7 @@ pub fn interact_with_change_number_of_game_button(
     mut is_popup: ResMut<IsPopup>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    windows: Query<&Window, With<PrimaryWindow>>,
     mut button_query: Query<
     (
         &Interaction,
@@ -65,7 +66,6 @@ pub fn interact_with_change_number_of_game_button(
     ),
     (Changed<Interaction>, With<ChangeNumberOfGameButton>)
     >,
-    windows: Query<&Window, With<PrimaryWindow>>,
     tournament: Res<Tournament>,
     ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {

@@ -7,7 +7,7 @@ pub struct AiInsertMenu {}
 pub struct BrowserButton {}
 
 #[derive(Component)]
-pub struct PathAIText {}
+pub struct PathAIText;
 
 // #[derive(Component)]
 // pub struct TestAiButton {}

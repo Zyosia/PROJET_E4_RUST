@@ -2,7 +2,7 @@ pub mod terminal_helper_functions;
 use terminal_helper_functions::*;
 use std::{io::self, fs};
 use tournament_engine::{Tournament, TournamentState};
-use game_engine::replay_from_file;
+use game_history::replayer::replay_from_file;
 
 /// Main function that controls the program's flow.
 /// This function presents the user with a main menu and calls the appropriate functions based on the user's choice.

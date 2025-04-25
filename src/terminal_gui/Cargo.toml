@@ -5,5 +5,5 @@ edition = "2024"
 
 [dependencies]
 crossterm = "0.27"
-game_engine = { path = "../game_engine" }
+game_history = { path = "../game_history" }
 tournament_engine = { path= "../tournament_engine" }

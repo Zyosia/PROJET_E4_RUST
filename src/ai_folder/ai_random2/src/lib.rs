@@ -1,4 +1,4 @@
-use board::Board;
+use board::board::Board;
 use rand::seq::SliceRandom;  // Ajoute cette importation
 
 #[unsafe(no_mangle)]

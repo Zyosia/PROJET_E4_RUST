@@ -1,7 +1,6 @@
-use board::Board;
-use game_history::History;
-use std::io::{self, Write, BufWriter};
-use std::{time::Duration, thread::sleep};
+use board::{board::Board, helper::format_position};
+use game_history::history::History;
+use std::io::{Write, BufWriter};
 use std::fs::{self, File};
 use std::sync::Arc;
 use libloading::Library;
@@ -61,19 +60,6 @@ impl Game {
         self.board.clone()
     }
 
-    /// Formats a board position from `(usize, usize)` to `(char, usize)`.
-    ///
-    /// # Parameters
-    /// - `position`: A tuple `(row, column)` representing the board position.
-    ///
-    /// # Returns
-    /// - `(char, usize)`: A tuple where the row is converted to a letter and column is 1-based.
-    fn format_position(position: (usize, usize)) -> (char, usize) {
-        let row_char = (b'A' + position.1 as u8) as char; // Convert row index to letter
-        let col_number = position.0 + 1;
-        (row_char, col_number)
-    }
-
     /// Runs the game loop, executing AI moves until a winner is determined or no moves are possible.
     ///
     /// # Returns
@@ -106,8 +92,8 @@ impl Game {
                 match ai_move_function(&self.board, self.player) {
                     Some((from, to)) => {
                         if self.board.is_valid_move(from, to, self.player) {
-                            let (from_row, from_col) = Self::format_position(from);
-                            let (to_row, to_col) = Self::format_position(to);
+                            let (from_row, from_col) = format_position(from);
+                            let (to_row, to_col) = format_position(to);
 
                             //println!("Joueur {} joue de ({},{}) à ({},{})", self.player, from_row, from_col, to_row, to_col);
 
@@ -150,36 +136,4 @@ impl Game {
             } //else
         } //loop
     } // fn run
-}
-
-/* History Replayer Functions */
-
-/// Replays a saved game from history.
-///
-/// # Parameters
-/// - ai_name1: The name of AI 1.
-/// - ai_name2: The name of AI 2.
-///
-/// # Returns
-/// - io::Result<()>: Returns Ok(()) if successful, otherwise an error.
-pub fn replay_from_file(ai_name1: &str, ai_name2: &str) -> io::Result<()> {
-    let history_filename = format!("{}_vs_{}.txt", ai_name1, ai_name2);
-    let history = History::load_from_file(&history_filename)?;
-    let mut board = Board::new();
-
-    history.get_moves().for_each(|(player, from, to)| {
-        let (from_row, from_col) = Game::format_position(*from);
-        let (to_row, to_col) = Game::format_position(*to);
-
-        println!(
-            "🔁 Replay: Joueur {} joue de ({},{}) à ({},{})",
-            player, from_row, from_col, to_row, to_col
-        );
-
-        board.apply_move(*from, *to);
-        board.print();
-        sleep(Duration::from_millis(500)); // half second between moves
-    });
-
-    Ok(())
 }

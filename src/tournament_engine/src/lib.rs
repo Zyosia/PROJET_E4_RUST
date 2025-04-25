@@ -1,8 +1,8 @@
 use std::{sync::Arc, collections::HashMap, fs, path::Path, io};
 use libloading::{Library};
-use board::Board;
+use board::board::Board;
 use game_engine::Game;
-use ai_manager::{load_ai_functions, compile_all_ai, create_new_ai};
+use ai_manager::{ai_loader::{load_ai_functions, compile_all_ai}, ai_creator::create_new_ai};
 
 use bevy::prelude::Resource;
 
@@ -126,7 +126,7 @@ impl Tournament {
     }
 
     /// Adds a participant to the tournament.
-    fn add_participant(
+    pub fn add_participant(
         &mut self, 
         ai_name: String, 
         lib: Arc<Library>,

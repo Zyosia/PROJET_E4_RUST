@@ -1,15 +1,22 @@
 use bevy::prelude::*;
+use bevy::ecs::system::ParamSet;
+use bevy::window::PrimaryWindow;
+use bevy_simple_text_input::TextInputValue;
+
+use crate::gui_helper_functions::windows::pop_up::information::information::spawn_information_popup;
+use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
 use crate::gui_helper_functions::windows::pop_up::request::components::*;
 use crate::tournament_menu::components::*;
+use crate::ai_insert_menu::components::*;
 
 use crate::gui_helper_functions::windows::pop_up::request::styles::*;
 use crate::AppState;
 use crate::IsPopup;
 
-
-use bevy_simple_text_input::TextInputValue;
-
 use tournament_engine::Tournament;
+use ai_manager::{ai_creator::*, helper_functions::ai_exists};
+
+use rfd::FileDialog;
 
 pub fn interact_with_cancel_request_pop_up_button(
     mut is_popup: ResMut<IsPopup>,
@@ -60,6 +67,8 @@ pub fn interact_with_cancel_request_pop_up_button(
 pub fn interact_with_confirm_request_pop_up_button(
     mut is_popup: ResMut<IsPopup>,
     mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    windows: Query<&Window, With<PrimaryWindow>>,
     mut tournament: ResMut<Tournament>,
     mut button_query: Query<
         (
@@ -74,7 +83,10 @@ pub fn interact_with_confirm_request_pop_up_button(
     popup_purpose: Query<&PopupPurpose, With<RequestPopup>>,
     overlay_query: Query<Entity, With<RequestPopupOverlay>>,
     mut app_state_next_state: ResMut<NextState<AppState>>,
-    mut number_text_query: Query<&mut Text, With<NumberOfGamesText>>,
+    mut text_queries: ParamSet<(
+        Query<&mut Text, With<NumberOfGamesText>>,
+        Query<&mut Text, With<PathAIText>>,
+    )>,
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
         match *interaction {
@@ -109,7 +121,7 @@ pub fn interact_with_confirm_request_pop_up_button(
                                     tournament.set_number_of_games(num).unwrap();
                                     println!("Number of games set to: {}", num);
 
-                                    if let Ok(mut text) = number_text_query.get_single_mut() {
+                                    if let Ok(mut text) = text_queries.p0().get_single_mut() {
                                         text.0 = format!("Parties par match : {}", tournament.get_number_of_games());
                                     }                                    
 
@@ -127,6 +139,47 @@ pub fn interact_with_confirm_request_pop_up_button(
                                 } else {
                                     println!("Invalid number input");
                                     return;
+                                }
+                            }
+                            PopupPurpose::SetAiName => {
+
+                                if let Ok(popup_entity) = popup_query.get_single() {
+                                    if commands.get_entity(popup_entity).is_some() {
+                                        commands.entity(popup_entity).despawn_recursive();
+                                    }
+                                }                                
+                                if let Ok(overlay_entity) = overlay_query.get_single() {
+                                    if commands.get_entity(overlay_entity).is_some() {
+                                        commands.entity(overlay_entity).despawn_recursive();
+                                    }
+                                }
+
+                                if ai_exists(&input.0.clone()) {
+                                    spawn_request_popup("Ce nom d'IA est déjà présent!\nVeuillez en saisir un autre:", &mut commands, &asset_server, windows, PopupPurpose::SetAiName);
+                                } else {                                    
+                                    if let Some(path) = FileDialog::new().pick_file() {
+                                        println!("Fichier sélectionné : {:?}", path);
+                                        
+                                        match create_ai_from_file(&input.0.clone(), &path) {
+                                            Ok(()) => println!("✅ AI package créé avec succès!"),
+                                            Err(e) => eprintln!("❌ Echec création du package: {}", e),
+                                        }
+                                        
+                                        match tournament.add_all_ai(){
+                                            Ok(()) => println!("✅ IA ajouté au tournois avec succès"),
+                                            Err(e) => eprintln!("❌ Echec ajout de l'IA au tournois {}", e),
+                                        }
+
+                                        //Si succès
+                                        if let Ok(mut text) = text_queries.p1().get_single_mut() {
+                                            text.0 = format!("IA {} ajouté avec succès !", input.0.clone());
+                                        }
+
+                                    } else {
+                                        spawn_information_popup("Aucun Fichier sélectionné\nAnnulation ajout de l'IA.", &mut commands, &asset_server, windows);
+                                        return;
+                                    }
+                                    is_popup.0 = false;
                                 }
                             }
                         }

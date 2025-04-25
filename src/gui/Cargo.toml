@@ -14,6 +14,7 @@ game_engine = { path = "../game_engine" }
 tournament_engine = { path = "../tournament_engine" }
 board = { path = "../board" }
 game_history = { path = "../game_history" }
+ai_manager = { path = "../ai_manager" }
 
 [features]
 bevy_dev_tools = ["bevy/bevy_winit", "bevy/bevy_render"]

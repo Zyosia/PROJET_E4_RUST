@@ -1,4 +1,4 @@
-use board::Board;
+use board::board::Board;
 use rand::seq::SliceRandom;  // Ajoute cette importation
 #[unsafe(no_mangle)]
 pub extern "C" fn get_ai_move(board: &Board, player: char) -> Option<((usize, usize), (usize, usize))> {
