@@ -1,0 +1,1 @@
+/home/nguyento/PROJET_E4/PROJET_E4_RUST-main/src/ai_folder/ai_montecarlo/target/release/libai_montecarlo.so: /home/nguyento/PROJET_E4/PROJET_E4_RUST-main/src/ai_folder/ai_montecarlo/src/lib.rs /home/nguyento/PROJET_E4/PROJET_E4_RUST-main/src/board/src/lib.rs
