@@ -9,8 +9,14 @@ use crate::IsPopup;
 use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
 use crate::gui_helper_functions::windows::pop_up::request::components::PopupPurpose;
 
+use crate::gui_helper_functions::windows::pop_up::choice::choice::spawn_choice_popup;
+use crate::gui_helper_functions::windows::pop_up::choice::components::ChoicePopupPurpose;
+
 pub fn interact_with_quit_button(
-    mut app_exit_event_writer: EventWriter<AppExit>,
+    mut is_popup: ResMut<IsPopup>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    windows: Query<&Window, With<PrimaryWindow>>,
     mut button_query: Query<
         (
             &Interaction,
@@ -25,7 +31,11 @@ pub fn interact_with_quit_button(
             Interaction::Pressed => {
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
-                app_exit_event_writer.send(AppExit::Success);
+                if is_popup.0 == false {
+                    is_popup.0 = true;
+                    spawn_choice_popup("Quitter l'application ?", &mut commands, &asset_server, windows, ChoicePopupPurpose::QuitApp);
+                }
+
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();

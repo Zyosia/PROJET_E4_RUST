@@ -1,6 +1,6 @@
 use gui::run_graphics;
 use terminal_gui::terminal_helper_functions::*;
-use terminal_gui::{run_terminal_ui, delete_all_history_files};
+use terminal_gui::{run_terminal_ui};
 
 fn main(){
     loop {
@@ -8,8 +8,6 @@ fn main(){
             1 => run_terminal_ui(),
             2 => {
                 run_graphics();
-                println!("Nettoyage des fichiers");
-                delete_all_history_files().unwrap();
                 println!("👋 Fermeture... 🚪");
                 break;
             }

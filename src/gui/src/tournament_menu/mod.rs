@@ -5,6 +5,7 @@ mod systems;
 use systems::interactions::*;
 use crate::gui_helper_functions::windows::pop_up::request::interactions::*;
 use crate::gui_helper_functions::windows::pop_up::information::interactions::*;
+use crate::gui_helper_functions::windows::pop_up::choice::interactions::*;
 use systems::layout::*;
 
 use bevy::prelude::*;
@@ -37,6 +38,8 @@ impl Plugin for TournamentMenuPlugin {
                     interact_with_cancel_request_pop_up_button,
                     interact_with_confirm_request_pop_up_button,
                     interact_with_ok_information_pop_up_button,
+                    interact_with_no_pop_up_button,
+                    interact_with_yes_pop_up_button,
                 )
                     .run_if(in_state(AppState::TournamentMenu)),
             )

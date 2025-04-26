@@ -1,0 +1,14 @@
+🔁 Replay: Joueur X joue de (H,3) à (G,4)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . X . O . 8
+7 . . X . . . . O 7
+6 . . . . O . X O 6
+5 . . . X X O . . 5
+4 O . . . . O X X 4
+3 . . O X . X . . 3
+2 . O . . . . . . 2
+1 . . . . . . X . 1
+  A B C D E F G H
+
+🏆 Le joueur X gagne!

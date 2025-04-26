@@ -7,7 +7,6 @@ use crate::tournament_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, 
 use crate::tournament_menu::components::*;
 use crate::AppState;
 use crate::IsPopup;
-use crate::ResetTournamentEvent;
 use crate::ScrollDragState;
 
 use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
@@ -15,13 +14,17 @@ use crate::gui_helper_functions::windows::pop_up::request::components::PopupPurp
 
 use crate::gui_helper_functions::windows::pop_up::information::information::spawn_information_popup;
 
+use crate::gui_helper_functions::windows::pop_up::choice::choice::spawn_choice_popup;
+use crate::gui_helper_functions::windows::pop_up::choice::components::ChoicePopupPurpose;
+
 use tournament_engine::Tournament;
 use tournament_engine::TournamentState;
 
 pub fn interact_with_end_tournament_button(
-    is_popup: Res<IsPopup>,
-    mut reset_writer: EventWriter<ResetTournamentEvent>,
-    mut app_state_next_state: ResMut<NextState<AppState>>,
+    mut is_popup: ResMut<IsPopup>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
+    windows: Query<&Window, With<PrimaryWindow>>,
     mut button_query: Query<
         (
             &Interaction,
@@ -37,10 +40,8 @@ pub fn interact_with_end_tournament_button(
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
                 if is_popup.0 == false {
-                    // ✔ Schedule the state change
-                    app_state_next_state.set(AppState::MainMenu);
-                    // ✔ Send the event
-                    reset_writer.send(ResetTournamentEvent);
+                    is_popup.0 = true;
+                    spawn_choice_popup("Quitter le tournois ?", &mut commands, &asset_server, windows, ChoicePopupPurpose::QuitTournament);
                 }
 
             }
