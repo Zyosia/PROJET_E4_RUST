@@ -1,6 +1,12 @@
 [package]
 name = "board"
 version = "0.1.0"
-edition = "2024"
+edition = "2021"
 
 [dependencies]
+serde      = { version = "1.0", optional = true, features = ["derive"] }
+serde_json = { version = "1.0", optional = true }
+
+[features]
+default      = []                           # no optional deps by default
+with-serde   = ["serde", "serde_json"]      # renamed feature to avoid collision

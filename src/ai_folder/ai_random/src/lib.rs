@@ -2,7 +2,7 @@ use board::board::Board;
 use rand::seq::SliceRandom;  // Ajoute cette importation
 #[unsafe(no_mangle)]
 pub extern "C" fn get_ai_move(board: &Board, player: char) -> Option<((usize, usize), (usize, usize))> {
-    println!("Entering IA 1");
+    eprintln!("Entering IA 1");
     let mut moves = Vec::new();
     for x in 0..8 {
         for y in 0..8 {

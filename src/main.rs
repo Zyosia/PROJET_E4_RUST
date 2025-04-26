@@ -8,6 +8,7 @@ fn main(){
             1 => run_terminal_ui(),
             2 => {
                 run_graphics();
+                println!("Nettoyage des fichiers");
                 delete_all_history_files().unwrap();
                 println!("👋 Fermeture... 🚪");
                 break;

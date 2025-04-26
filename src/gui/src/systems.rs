@@ -13,3 +13,6 @@ pub fn exit_app(
         app_exit_event_writer.send(AppExit::Success);
     }
 }
+
+#[derive(Event)]
+pub struct ResetTournamentEvent;

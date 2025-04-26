@@ -7,6 +7,7 @@ use crate::tournament_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, 
 use crate::tournament_menu::components::*;
 use crate::AppState;
 use crate::IsPopup;
+use crate::ResetTournamentEvent;
 use crate::ScrollDragState;
 
 use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
@@ -19,8 +20,8 @@ use tournament_engine::TournamentState;
 
 pub fn interact_with_end_tournament_button(
     is_popup: Res<IsPopup>,
+    mut reset_writer: EventWriter<ResetTournamentEvent>,
     mut app_state_next_state: ResMut<NextState<AppState>>,
-    mut tournament: ResMut<Tournament>,
     mut button_query: Query<
         (
             &Interaction,
@@ -36,8 +37,10 @@ pub fn interact_with_end_tournament_button(
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
                 if is_popup.0 == false {
-                    tournament.reset();
+                    // ✔ Schedule the state change
                     app_state_next_state.set(AppState::MainMenu);
+                    // ✔ Send the event
+                    reset_writer.send(ResetTournamentEvent);
                 }
 
             }

@@ -101,7 +101,12 @@ pub fn interact_with_confirm_request_pop_up_button(
                             PopupPurpose::SetTournamentName => {
                                 tournament.set_tournament_name(input.0.clone()).unwrap();
                                 println!("Tournament name set to: {}", tournament.get_name());
-                                tournament.add_all_ai().unwrap();
+                                match tournament.add_all_ai(){
+                                    Ok(()) => println!("✅ IA pré-existante compilées avec succès !"),
+                                    Err(e) => {
+                                        eprintln!("❌ Echec compilation des IA: {}", e)
+                                    },
+                                }
 
                                 if let Ok(popup_entity) = popup_query.get_single() {
                                     if commands.get_entity(popup_entity).is_some() {

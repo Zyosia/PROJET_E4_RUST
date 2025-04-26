@@ -1,0 +1,18 @@
+[package]
+name = "ai_driver"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+# 1) Your board crate, with only its `serde` feature enabled:
+board = { path = "../board", default-features = false, features = ["with-serde"] }
+
+# 2) Dynamic‐loading of .so/.dll plugins
+libloading = "0.8.6"
+
+# 3) JSON serialization for Board and Response
+serde      = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0"
+
+# 4) Ergonomic error handling in main()
+anyhow = "1.0"

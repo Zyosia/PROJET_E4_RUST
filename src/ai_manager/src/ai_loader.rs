@@ -1,4 +1,4 @@
-use std::{fs, sync::Arc, path::{PathBuf}, process::{exit, Command}, ffi::OsStr};
+use std::{fs, sync::Arc, path::{Path, PathBuf}, process::{exit, Command}, ffi::OsStr};
 use board::board::Board;
 use libloading::{Library, Symbol};
 
@@ -84,6 +84,45 @@ pub fn load_ai_functions() -> Option<Vec<Option<(Arc<Library>, Box<dyn Fn(&Board
 
     // Returning libraries and ai_functions as separate vectors
     Some(ai_functions_data)
+}
+
+
+/// Scan `src/ai_folder` for sub-crates, locate their compiled dynamic libraries,
+/// and return a vector of (AI name, dynamic library path) tuples.
+pub fn find_all_ai_plugin_paths() -> Vec<(String, String)> {
+    let mut results = Vec::new();
+    let base = Path::new("src/ai_folder");
+
+    if let Ok(entries) = fs::read_dir(base) {
+        for entry in entries.flatten() {
+            let dir = entry.path();
+            if dir.is_dir() {
+                if let Some(ai_name) = dir.file_name().and_then(|s| s.to_str()) {
+                    let release_dir = dir.join("target").join("release");
+                    if let Ok(files) = fs::read_dir(&release_dir) {
+                        for file in files.flatten() {
+                            let path = file.path();
+                            if path.is_file() {
+                                if let Some(ext) = path.extension().and_then(|e| e.to_str()) {
+                                    let is_dynlib = cfg!(target_os = "windows") && ext.eq_ignore_ascii_case("dll")
+                                        || cfg!(target_os = "linux") && ext == "so"
+                                        || cfg!(target_os = "macos") && ext == "dylib";
+                                    if is_dynlib {
+                                        results.push((
+                                            ai_name.to_string(),
+                                            path.to_string_lossy().into_owned(),
+                                        ));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    results
 }
 
 /// Compiles all AI packages found in the `src/ai_folder` directory.

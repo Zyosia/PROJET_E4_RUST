@@ -1,9 +1,6 @@
-use std::{sync::Arc, collections::HashMap, fs, path::Path, io};
-use libloading::{Library};
-use board::board::Board;
-use game_engine::Game;
-use ai_manager::{ai_loader::{load_ai_functions, compile_all_ai}, ai_creator::create_new_ai};
-
+use std::{collections::HashMap, fs, path::Path, io};
+use game_engine::game::Game;
+use ai_manager::{ai_loader::{compile_all_ai, find_all_ai_plugin_paths}, ai_creator::create_new_ai};
 use bevy::prelude::Resource;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -17,7 +14,7 @@ pub struct Tournament {
     tournament_name: String,
     state: TournamentState,
     participants: Vec<String>,  // Names of AI participants
-    ai_functions: HashMap<String, (Arc<Library>, Arc<Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>>)>,
+    ai_lib_paths: HashMap<String, String>,
     scores: HashMap<String, usize>,
     nombre_parties: i32,
 }
@@ -30,7 +27,7 @@ impl Tournament {
             tournament_name: String::new(),
             state: TournamentState::Waiting,
             participants: Vec::new(),
-            ai_functions: HashMap::new(),
+            ai_lib_paths: HashMap::new(),
             scores: HashMap::new(),
             nombre_parties: 10,
         }
@@ -82,7 +79,6 @@ impl Tournament {
         self.scores.clone()
     }
 
-
     /// Set the tournament name
     /// # Arguments
     /// - `name` - The name of the tournament.
@@ -129,10 +125,9 @@ impl Tournament {
     pub fn add_participant(
         &mut self, 
         ai_name: String, 
-        lib: Arc<Library>,
-        ai_function: Box<dyn Fn(&Board, char) -> Option<((usize, usize), (usize, usize))> + Send + Sync>
+        ai_lib_path: String,
     ){
-        self.ai_functions.insert(ai_name.clone(), (lib, Arc::new(ai_function)));
+        self.ai_lib_paths.insert(ai_name.clone(), ai_lib_path.clone());
         self.participants.push(ai_name);
     }
 
@@ -148,21 +143,24 @@ impl Tournament {
         }
         
         println!("✅ Toutes les IA ont été compilées avec succès !");
+
         // Charge les IA
-        let mut ai_functions_data = load_ai_functions().unwrap();
-        if ai_functions_data.is_empty(){
+
+        let mut paths = find_all_ai_plugin_paths();
+        if paths.is_empty(){
             return Err("Erreur: Aucune IA chargée.".to_string());
         }
+        println!("{:?}", paths);
 
         loop{
-            if ai_functions_data.is_empty(){
+            if paths.is_empty(){
                 break;
             }
-            let ai_data = ai_functions_data.pop();
-            let Some((lib, ai_function, ai_name)) = ai_data.unwrap() else {panic!("Erreur: impossible de récupéré les données de l'IA")};
+            let ai_data = paths.pop();
+            let (ai_name, ai_lib_path) = ai_data.unwrap();
             
-            if self.ai_functions.contains_key(&ai_name) == false {
-                Self::add_participant(self, ai_name, lib, ai_function);
+            if self.ai_lib_paths.contains_key(&ai_name) == false {
+                Self::add_participant(self, ai_name, ai_lib_path);
             }
 
         }
@@ -213,28 +211,22 @@ impl Tournament {
                 let ai_name1 = &self.participants[i];
                 let ai_name2 = &self.participants[j];
 
-                if let Some((lib1, ai_function1)) = self.ai_functions.get(ai_name1) {
-                    if let Some((lib2, ai_function2)) = self.ai_functions.get(ai_name2) {
-                        let ai_function1 = Arc::clone(ai_function1);
-                        let ai_function2 = Arc::clone(ai_function2);
+                let ai1_lib_path = self.ai_lib_paths.get(ai_name1);
+                let ai2_lib_path = self.ai_lib_paths.get(ai_name2);
 
-                        let mut game = Game::new(
-                            ai_name1.clone(),
-                            ai_name2.clone(),
-                            Some(ai_function1),  // Pass the cloned Arc
-                            Some(ai_function2),  // Pass the cloned Arc
-                            Some(lib1.clone()),
-                            Some(lib2.clone()),
-                        );
-                        for i in 0..self.nombre_parties {
-                            game.run(i + 1).unwrap();
-                            let winner = game.get_board().check_winner().unwrap_or(' ');
-                            if winner == 'X' {
-                                *self.scores.get_mut(ai_name1).unwrap() += 1;
-                            } else if winner == 'O' {
-                                *self.scores.get_mut(ai_name2).unwrap() += 1;
-                            }
-                        }
+                let mut game = Game::new(
+                    ai_name1.clone(),
+                    ai_name2.clone(),
+                    ai1_lib_path.unwrap().clone(),
+                    ai2_lib_path.unwrap().clone(),
+                );
+                for i in 0..self.nombre_parties {
+                    game.run(i + 1).unwrap();
+                    let winner = game.get_winner();
+                    if winner == 'X' {
+                        *self.scores.get_mut(ai_name1).unwrap() += 1;
+                    } else if winner == 'O' {
+                        *self.scores.get_mut(ai_name2).unwrap() += 1;
                     }
                 }
             }
@@ -304,7 +296,7 @@ impl Tournament {
         self.state = TournamentState::Waiting;
         self.tournament_name.clear();
         self.participants.clear();
-        self.ai_functions.clear();
+        self.ai_lib_paths.clear();
         self.scores.clear();
         self.nombre_parties = 10;
         println!("🔄 Tournoi réinitialisé !");

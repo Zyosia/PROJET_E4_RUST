@@ -153,13 +153,13 @@ pub fn build_tournament_result_menu(commands: &mut Commands, asset_server: &Res<
                 ))
                 .with_children(|center| {
                     center.spawn((
-                        Text::new("Participants :"),
+                        Text::new("SCOREBOARD"),
                         TextFont {
                             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                             font_size: 30.0,
                             ..default()
                         },
-                        TextColor(Color::srgb(0.9, 0.9, 0.9)),
+                        TextColor(Color::srgb(1.0, 0.85, 0.4)),
                     ));
                     for (ai, score) in sorted_scores {
                         center.spawn((

@@ -37,7 +37,7 @@ pub fn create_ai_package(ai_path: &str, src_path: &str, ai_name: &str) -> std::i
         
     [dependencies]
     rand = "0.8"
-    board = {{ path = "../../board" }}
+    board = {{ path = "../../board", default-features = false, features = ["with-serde"] }}
         
     [lib]
     name = "{0}"

@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 rand = "0.8"
 libloading = "0.8"
-board = { path = "../../board" }
+board = { path = "../../board", default-features = false, features = ["with-serde"] }
 
 [lib]
 name = "ai_random"

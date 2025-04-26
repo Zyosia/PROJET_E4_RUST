@@ -1,0 +1,12 @@
+[package]
+    name = "ai_time_tester"
+    version = "0.1.0"
+    edition = "2021"
+        
+    [dependencies]
+    board = { path = "../../board", default-features = false, features = ["with-serde"] }
+        
+    [lib]
+    name = "ai_time_tester"
+    crate-type = ["cdylib"]
+        

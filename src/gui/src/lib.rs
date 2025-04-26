@@ -32,6 +32,7 @@ pub fn run_graphics() {
         .insert_resource(Tournament::new())
         .insert_resource(ScrollDragState::default())
         .insert_resource(IsPopup::default())
+        .add_event::<ResetTournamentEvent>()
         .add_systems(Startup, (setup, focus_window))
         // My Plugins
         .add_plugins((MainMenuPlugin, TournamentMenuPlugin, TournamentResultMenuPlugin, AiInsertMenuPlugin))
@@ -42,6 +43,7 @@ pub fn run_graphics() {
                 // transition_to_watch_match_menu_state,
                 // transition_to_main_menu_state,
                 exit_app,
+                reset_tournament_on_event,
             ),
         )
         .run();
@@ -68,6 +70,15 @@ fn focus_window(
                 );
             }
         }
+    }
+}
+
+pub fn reset_tournament_on_event(
+    mut tournament: ResMut<Tournament>,
+    mut events: EventReader<ResetTournamentEvent>,
+) {
+    for _ in events.read() {
+        tournament.reset();
     }
 }
 

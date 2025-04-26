@@ -1,9 +1,11 @@
 use std::{io, io::Write};
+#[cfg(feature = "with-serde")]
+use serde::{Deserialize, Serialize};
 
 const SIZE: usize = 8;
 
 /// Represents a game board for a 8x8 Breaktrough Game.
-#[derive(Clone)]
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Board {
     pub grid: [[char; SIZE]; SIZE],
 }

@@ -12,9 +12,11 @@ rfd = "0.15.3"
 winit = "0.30.9"
 game_engine = { path = "../game_engine" }
 tournament_engine = { path = "../tournament_engine" }
-board = { path = "../board" }
 game_history = { path = "../game_history" }
 ai_manager = { path = "../ai_manager" }
+
+# Pull in `board` *with* its Serde support:
+board = { path = "../board", default-features = false, features = ["with-serde"] }
 
 [features]
 bevy_dev_tools = ["bevy/bevy_winit", "bevy/bevy_render"]
