@@ -4,7 +4,7 @@ use crate::tournament_menu::components::*;
 use crate::tournament_menu::styles::*;
 use crate::gui_helper_functions::text_helper::*;
 
-use tournament_engine::Tournament;
+use tournament_engine::tournament::Tournament;
 
 const Z_LAYER_UI: f32 = 10.0;
 

@@ -5,6 +5,7 @@ edition = "2024"
 
 [dependencies]
 bevy = { version = "0.15.3", features = ["bevy_winit", "bevy_render", "bevy_ui"] }
+futures-lite = "1.11.0"
 accesskit = "0.17.1"
 bevy_a11y = "0.15.3"
 bevy_simple_text_input = "0.10.2"

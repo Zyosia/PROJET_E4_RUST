@@ -1,7 +1,7 @@
 pub mod terminal_helper_functions;
 use terminal_helper_functions::*;
 use std::{io::self};
-use tournament_engine::{Tournament, TournamentState};
+use tournament_engine::{tournament::{Tournament, TournamentState}, helper::{show_participants, display_scoreboard, save_tournament}};
 use game_history::{replayer::replay_from_file, helper::{list_available_games, delete_all_history_files}};
 
 /// Main function that controls the program's flow.
@@ -78,7 +78,7 @@ fn start_tournament() {
             }
             3 => {
                 clear_screen();
-                tournament.show_participants();
+                show_participants(&tournament);
                 pause();
             }
             4 => {
@@ -90,7 +90,7 @@ fn start_tournament() {
             }
             5 => {
                 clear_screen();
-                tournament.display_scoreboard();
+                display_scoreboard(&tournament);
                 pause();
             }
             6 => {
@@ -112,7 +112,7 @@ fn start_tournament() {
                         match end_tournament_menu(){
                             1 => {
                                 //Save the tournament 
-                                if let Err(e) = tournament.save_tournament(){
+                                if let Err(e) = save_tournament(&tournament){
                                     println!("❌ Erreur sauvegarde du tournoi: {}", e);
                                 }
                                 // Delete all history files

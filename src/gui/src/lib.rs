@@ -5,21 +5,19 @@ mod ai_insert_menu;
 mod systems;
 mod gui_helper_functions;
 
+use crate::gui_helper_functions::windows::pop_up::loading::interactions::*;
+
 use main_menu::MainMenuPlugin;
 use tournament_menu::TournamentMenuPlugin;
 use tournament_result_menu::TournamentResultMenuPlugin;
 use ai_insert_menu::AiInsertMenuPlugin;
 
 use bevy::{prelude::*, winit::WinitSettings};
-use bevy::window::PrimaryWindow;
-use bevy::winit::WinitWindows;
-use winit::dpi::{PhysicalPosition, Position};
-
 use bevy_simple_text_input::TextInputPlugin;
 
 use systems::*;
 
-use tournament_engine::Tournament;
+use tournament_engine::tournament::Tournament;
 
 pub fn run_graphics() {
     App::new()
@@ -32,54 +30,30 @@ pub fn run_graphics() {
         .insert_resource(Tournament::new())
         .insert_resource(ScrollDragState::default())
         .insert_resource(IsPopup::default())
+        .insert_resource(LoadingTimer {
+            timer: Timer::from_seconds(0.5, TimerMode::Repeating),
+        })
         .add_event::<ResetTournamentEvent>()
-        .add_systems(Startup, (setup, focus_window))
+        .add_systems(Startup, setup)
         // My Plugins
         .add_plugins((MainMenuPlugin, TournamentMenuPlugin, TournamentResultMenuPlugin, AiInsertMenuPlugin))
+        //Custom Systems
+        .add_systems(OnEnter(AppState::CreatingTournament), create_tournament_system)
+        .add_systems(OnEnter(AppState::PlayingTournament), playing_tournament_system)
+        //Update Systems
         .add_systems(
             Update,
             (
-                // transition_to_ai_insert_menu_state,
-                // transition_to_watch_match_menu_state,
-                // transition_to_main_menu_state,
+                roll_circle_system,
+                animate_loading_text_system.run_if(
+                    in_state(AppState::CreatingTournament)
+                    .or(in_state(AppState::PlayingTournament))
+                ),
                 exit_app,
                 reset_tournament_on_event,
             ),
         )
         .run();
-}
-
-fn focus_window(
-    primary_window_query: Query<Entity, With<PrimaryWindow>>,
-    winit_windows: NonSend<WinitWindows>,
-) {
-    if let Ok(primary_entity) = primary_window_query.get_single() {
-        if let Some(winit_window) = winit_windows.get_window(primary_entity) {
-            winit_window.focus_window(); // ← THIS works
-
-            // Center the window
-            if let Some(monitor) = winit_window.current_monitor() {
-                let monitor_size = monitor.size();
-                let window_size = winit_window.outer_size();
-
-                let new_x = ((monitor_size.width as f64 - window_size.width as f64) / 2.0).round() as i32;
-                let new_y = ((monitor_size.height as f64 - window_size.height as f64) / 2.0).round() as i32;
-
-                winit_window.set_outer_position(
-                    Position::Physical(PhysicalPosition::new(new_x, new_y))
-                );
-            }
-        }
-    }
-}
-
-pub fn reset_tournament_on_event(
-    mut tournament: ResMut<Tournament>,
-    mut events: EventReader<ResetTournamentEvent>,
-) {
-    for _ in events.read() {
-        tournament.reset();
-    }
 }
 
 #[derive(States, Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
@@ -90,6 +64,8 @@ pub enum AppState {
     TournamentResultMenu,
     AiInsertMenu,
     WatchMatchMenu,
+    CreatingTournament,
+    PlayingTournament,
 }
 
 #[derive(Resource, Default)]
@@ -102,3 +78,11 @@ pub struct ScrollDragState {
 /// Detect wether there is a popup or not on the window
 #[derive(Resource, Default)]
 pub struct IsPopup(pub bool);
+
+#[derive(Resource)]
+pub struct PendingTournamentName(String);
+
+#[derive(Resource, Default)]
+pub struct LoadingTimer {
+    pub timer: Timer,
+}

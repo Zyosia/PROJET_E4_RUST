@@ -5,6 +5,23 @@ use bevy::window::PrimaryWindow;
 
 use crate::gui_helper_functions::windows::pop_up::request::components::*;
 
+pub fn despawn_request_popup(
+    commands: &mut Commands,
+    popup_query: Query<Entity, With<RequestPopup>>,
+    overlay_query: Query<Entity, With<RequestPopupOverlay>>,
+){
+    if let Ok(popup_entity) = popup_query.get_single() {
+        if commands.get_entity(popup_entity).is_some() {
+            commands.entity(popup_entity).despawn_recursive();
+        }
+    }                                
+    if let Ok(overlay_entity) = overlay_query.get_single() {
+        if commands.get_entity(overlay_entity).is_some() {
+            commands.entity(overlay_entity).despawn_recursive();
+        }
+    } 
+}
+
 pub fn spawn_request_popup(
     message: &str,
     commands: &mut Commands,

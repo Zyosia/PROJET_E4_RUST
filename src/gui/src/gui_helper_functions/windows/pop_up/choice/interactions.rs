@@ -9,7 +9,7 @@ use crate::AppState;
 use crate::IsPopup;
 use crate::ResetTournamentEvent;
 
-use tournament_engine::Tournament;
+use tournament_engine::{tournament::{Tournament, TournamentState}, helper::save_tournament};
 use game_history::helper::delete_all_history_files;
 
 pub fn interact_with_no_pop_up_button(
@@ -111,11 +111,20 @@ pub fn interact_with_yes_pop_up_button(
                         } // PopupPurpose::QuitApp
                         ChoicePopupPurpose::QuitTournament => {
                             despawn_choice_popup(&mut commands, popup_query, overlay_query);
-                            spawn_choice_popup("Enregistrer le tournois ?", &mut commands, &asset_server, windows, ChoicePopupPurpose::SaveTournament)
+                            if tournament.get_state() == TournamentState::Started {
+                                spawn_choice_popup("Enregistrer le tournois ?", &mut commands, &asset_server, windows, ChoicePopupPurpose::SaveTournament)
+                            } else {
+                                is_popup.0 = false;
+                                // ✔ Schedule the state change
+                                app_state_next_state.set(AppState::MainMenu);
+                                // ✔ Send the event
+                                reset_writer.send(ResetTournamentEvent);
+                            }
+
                         } // PopupPurpose::QuitTournament
                         ChoicePopupPurpose::SaveTournament => {
                             //Save the tournament 
-                            if let Err(e) = tournament.save_tournament(){
+                            if let Err(e) = save_tournament(&tournament){
                                 println!("❌ Erreur sauvegarde du tournoi: {}", e);
                             }
                             // Delete all history files
@@ -124,13 +133,11 @@ pub fn interact_with_yes_pop_up_button(
                             }
 
                             despawn_choice_popup(&mut commands, popup_query, overlay_query);
-
+                            is_popup.0 = false;
                             // ✔ Schedule the state change
                             app_state_next_state.set(AppState::MainMenu);
                             // ✔ Send the event
                             reset_writer.send(ResetTournamentEvent);
-
-                            is_popup.0 = false;
                         } // PopupPurpose::SaveTournament
                     }
                 }

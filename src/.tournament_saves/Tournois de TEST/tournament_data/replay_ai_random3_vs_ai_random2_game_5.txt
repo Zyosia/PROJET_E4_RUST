@@ -1,0 +1,14 @@
+🔁 Replay: Joueur X joue de (D,5) à (E,6)
+Plateau après le coup:
+  A B C D E F G H
+8 . . . . . X . . 8
+7 . O . O O . . O 7
+6 . O . O X . . X 6
+5 X O O . . X . . 5
+4 X . . X . . O . 4
+3 X . . X . . . . 3
+2 . . . . X . . . 2
+1 X . . . . X . X 1
+  A B C D E F G H
+
+🏆 Le joueur X gagne!

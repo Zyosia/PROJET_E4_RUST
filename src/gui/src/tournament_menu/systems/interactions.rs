@@ -6,19 +6,19 @@ use bevy::window::PrimaryWindow;
 use crate::tournament_menu::styles::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR};
 use crate::tournament_menu::components::*;
 use crate::AppState;
-use crate::IsPopup;
-use crate::ScrollDragState;
+use crate::{IsPopup, ScrollDragState};
 
+use crate::gui_helper_functions::windows::pop_up::loading::loading::spawn_loading_popup;
 use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
 use crate::gui_helper_functions::windows::pop_up::request::components::PopupPurpose;
+
 
 use crate::gui_helper_functions::windows::pop_up::information::information::spawn_information_popup;
 
 use crate::gui_helper_functions::windows::pop_up::choice::choice::spawn_choice_popup;
 use crate::gui_helper_functions::windows::pop_up::choice::components::ChoicePopupPurpose;
 
-use tournament_engine::Tournament;
-use tournament_engine::TournamentState;
+use tournament_engine::tournament::{Tournament, TournamentState};
 
 pub fn interact_with_end_tournament_button(
     mut is_popup: ResMut<IsPopup>,
@@ -43,7 +43,6 @@ pub fn interact_with_end_tournament_button(
                     is_popup.0 = true;
                     spawn_choice_popup("Quitter le tournois ?", &mut commands, &asset_server, windows, ChoicePopupPurpose::QuitTournament);
                 }
-
             }
             Interaction::Hovered => {
                 *color = HOVERED_BUTTON_COLOR.into();
@@ -111,7 +110,7 @@ pub fn interact_with_start_tournament_button(
         ),
         (Changed<Interaction>, With<StartTournamentButton>)
     >,
-    mut tournament: ResMut<Tournament>,
+    tournament: Res<Tournament>,
     mut app_state_next_state: ResMut<NextState<AppState>>,
 ) {
     if let Ok((interaction, mut color, mut border_color)) = button_query.get_single_mut() {
@@ -120,9 +119,13 @@ pub fn interact_with_start_tournament_button(
                 *color = PRESSED_BUTTON_COLOR.into();
                 border_color.0 = RED.into();
                 if tournament.get_state() == TournamentState::Waiting && is_popup.0 == false {
-                    tournament.start().unwrap();
-                    tournament.run().unwrap();
-                    app_state_next_state.set(AppState::TournamentResultMenu);
+                    spawn_loading_popup(
+                        "Tournois en cours . . . ", 
+                        &mut commands, 
+                        &asset_server, 
+                        windows
+                    );
+                    app_state_next_state.set(AppState::PlayingTournament);
                 } else if is_popup.0 == false {
                     is_popup.0 = true;
                     spawn_information_popup("Action impossible: Tournoi déjà démarré !", &mut commands, &asset_server, windows);

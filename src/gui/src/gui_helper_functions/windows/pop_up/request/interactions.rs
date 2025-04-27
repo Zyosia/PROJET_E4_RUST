@@ -3,17 +3,21 @@ use bevy::ecs::system::ParamSet;
 use bevy::window::PrimaryWindow;
 use bevy_simple_text_input::TextInputValue;
 
+use crate::gui_helper_functions::windows::pop_up::loading::loading::spawn_loading_popup;
 use crate::gui_helper_functions::windows::pop_up::information::information::spawn_information_popup;
-use crate::gui_helper_functions::windows::pop_up::request::request::spawn_request_popup;
+use crate::gui_helper_functions::windows::pop_up::request::request::{spawn_request_popup, despawn_request_popup};
+
 use crate::gui_helper_functions::windows::pop_up::request::components::*;
+use crate::gui_helper_functions::windows::pop_up::loading::components::*;
 use crate::tournament_menu::components::*;
 use crate::ai_insert_menu::components::*;
 
 use crate::gui_helper_functions::windows::pop_up::request::styles::*;
+use crate::PendingTournamentName;
 use crate::AppState;
 use crate::IsPopup;
 
-use tournament_engine::Tournament;
+use tournament_engine::tournament::Tournament;
 use ai_manager::{ai_creator::*, helper_functions::ai_exists};
 
 use rfd::FileDialog;
@@ -39,16 +43,7 @@ pub fn interact_with_cancel_request_pop_up_button(
                 *color = CANCEL_PRESSED_BG.into();
                 border_color.0 = CANCEL_PRESSED_BORDER;
 
-                if let Ok(popup_entity) = popup_query.get_single() {
-                    if commands.get_entity(popup_entity).is_some() {
-                        commands.entity(popup_entity).despawn_recursive();
-                    }
-                }                                
-                if let Ok(overlay_entity) = overlay_query.get_single() {
-                    if commands.get_entity(overlay_entity).is_some() {
-                        commands.entity(overlay_entity).despawn_recursive();
-                    }
-                }  
+                despawn_request_popup(&mut commands, popup_query, overlay_query);  
 
                 is_popup.0 = false;
             }
@@ -79,9 +74,15 @@ pub fn interact_with_confirm_request_pop_up_button(
         (Changed<Interaction>, With<ConfirmRequestPopupButton>)
     >,
     input_query: Query<&TextInputValue>,
-    popup_query: Query<Entity, With<RequestPopup>>,
     popup_purpose: Query<&PopupPurpose, With<RequestPopup>>,
-    overlay_query: Query<Entity, With<RequestPopupOverlay>>,
+    mut popups_query: ParamSet<(
+        Query<Entity, With<RequestPopup>>,
+        Query<Entity, With<LoadingPopup>>,
+    )>,
+    mut overlays_query: ParamSet<(
+        Query<Entity, With<RequestPopupOverlay>>,
+        Query<Entity, With<LoadingPopupOverlay>>,
+    )>,
     mut app_state_next_state: ResMut<NextState<AppState>>,
     mut text_queries: ParamSet<(
         Query<&mut Text, With<NumberOfGamesText>>,
@@ -99,27 +100,15 @@ pub fn interact_with_confirm_request_pop_up_button(
                     if let Ok(input) = input_query.get_single() {
                         match purpose {
                             PopupPurpose::SetTournamentName => {
-                                tournament.set_tournament_name(input.0.clone()).unwrap();
-                                println!("Tournament name set to: {}", tournament.get_name());
-                                match tournament.add_all_ai(){
-                                    Ok(()) => println!("✅ IA pré-existante compilées avec succès !"),
-                                    Err(e) => {
-                                        eprintln!("❌ Echec compilation des IA: {}", e)
-                                    },
-                                }
-
-                                if let Ok(popup_entity) = popup_query.get_single() {
-                                    if commands.get_entity(popup_entity).is_some() {
-                                        commands.entity(popup_entity).despawn_recursive();
-                                    }
-                                }                                
-                                if let Ok(overlay_entity) = overlay_query.get_single() {
-                                    if commands.get_entity(overlay_entity).is_some() {
-                                        commands.entity(overlay_entity).despawn_recursive();
-                                    }
-                                }                                
-                                is_popup.0 = false;
-                                app_state_next_state.set(AppState::TournamentMenu);
+                                despawn_request_popup(&mut commands, popups_query.p0(), overlays_query.p0());
+                                spawn_loading_popup(
+                                    "Création du tournoi en cours . . . ", 
+                                    &mut commands, 
+                                    &asset_server, 
+                                    windows
+                                );
+                                commands.insert_resource(PendingTournamentName(input.0.clone()));
+                                app_state_next_state.set(AppState::CreatingTournament);
                             }
                             PopupPurpose::SetNumberOfGames => {
                                 if let Ok(num) = input.0.parse::<i32>() {
@@ -130,16 +119,8 @@ pub fn interact_with_confirm_request_pop_up_button(
                                         text.0 = format!("Parties par match : {}", tournament.get_number_of_games());
                                     }                                    
 
-                                    if let Ok(popup_entity) = popup_query.get_single() {
-                                        if commands.get_entity(popup_entity).is_some() {
-                                            commands.entity(popup_entity).despawn_recursive();
-                                        }
-                                    }                                
-                                    if let Ok(overlay_entity) = overlay_query.get_single() {
-                                        if commands.get_entity(overlay_entity).is_some() {
-                                            commands.entity(overlay_entity).despawn_recursive();
-                                        }
-                                    }
+                                    despawn_request_popup(&mut commands, popups_query.p0(), overlays_query.p0());  
+
                                     is_popup.0 = false;
                                 } else {
                                     println!("Invalid number input");
@@ -148,16 +129,7 @@ pub fn interact_with_confirm_request_pop_up_button(
                             }
                             PopupPurpose::SetAiName => {
 
-                                if let Ok(popup_entity) = popup_query.get_single() {
-                                    if commands.get_entity(popup_entity).is_some() {
-                                        commands.entity(popup_entity).despawn_recursive();
-                                    }
-                                }                                
-                                if let Ok(overlay_entity) = overlay_query.get_single() {
-                                    if commands.get_entity(overlay_entity).is_some() {
-                                        commands.entity(overlay_entity).despawn_recursive();
-                                    }
-                                }
+                                despawn_request_popup(&mut commands, popups_query.p0(), overlays_query.p0());
 
                                 if ai_exists(&input.0.clone()) {
                                     spawn_request_popup("Ce nom d'IA est déjà présent!\nVeuillez en saisir un autre:", &mut commands, &asset_server, windows, PopupPurpose::SetAiName);

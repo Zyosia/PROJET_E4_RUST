@@ -1,0 +1,14 @@
+🔁 Replay: Joueur O joue de (E,2) à (D,1)
+Plateau après le coup:
+  A B C D E F G H
+8 . . O . . . . O 8
+7 . O X O O X . O 7
+6 . O . . X O O . 6
+5 . . O . . . . . 5
+4 O . X O X O . . 4
+3 X . . . . . X X 3
+2 . . X . . X X . 2
+1 X O X O . . X . 1
+  A B C D E F G H
+
+🏆 Le joueur O gagne!

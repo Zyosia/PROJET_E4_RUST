@@ -4,7 +4,7 @@ use crate::tournament_result_menu::components::*;
 use crate::tournament_result_menu::styles::*;
 use crate::gui_helper_functions::text_helper::*;
 
-use tournament_engine::Tournament;
+use tournament_engine::tournament::Tournament;
 
 pub fn spawn_tournament_result_menu(mut commands: Commands, asset_server: Res<AssetServer>, tournament: Res<Tournament>) {
     build_tournament_result_menu(&mut commands, &asset_server, &tournament);
@@ -42,7 +42,7 @@ pub fn build_tournament_result_menu(commands: &mut Commands, asset_server: &Res<
         },
     ))
     .with_children(|parent| {
-        // Tournament name
+        // TITLE
         parent.spawn((
             Node {
                 margin: UiRect::top(Val::Px(20.0)),

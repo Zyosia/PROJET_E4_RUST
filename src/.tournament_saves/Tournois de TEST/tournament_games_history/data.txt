@@ -1,0 +1,21 @@
+Tournament Name: Tournois de TEST
+Tournament State: Démarré
+Participants:
+    ai_time_tester
+    ai_random3
+    ai_random2
+    ai_random
+    ai_montecarlo
+AI Library Paths:
+    ai_montecarlo -> src/ai_folder\ai_montecarlo\target\release\ai_montecarlo.dll
+    ai_time_tester -> src/ai_folder\ai_time_tester\target\release\ai_time_tester.dll
+    ai_random2 -> src/ai_folder\ai_random2\target\release\ai_random2.dll
+    ai_random3 -> src/ai_folder\ai_random3\target\release\ai_random3.dll
+    ai_random -> src/ai_folder\ai_random\target\release\ai_random.dll
+Scores:
+    ai_time_tester -> 0
+    ai_random2 -> 10
+    ai_random3 -> 30
+    ai_random -> 20
+    ai_montecarlo -> 40
+Number of Games: 10
